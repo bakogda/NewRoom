@@ -30,7 +30,7 @@ import javax.swing.JPasswordField;
 			
 			panel.add(login);
 			panel.add(pwd);
-			panel.add(button);`
+			panel.add(button);
 			frame.add("South" , panel);
 			
 			frame.addWindowListener(new CloseListener());

@@ -11,7 +11,7 @@ class ShowEventWindow extends JFrame {
 	}
 
 	String[] times = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
-	String [] rooms = {"W201","W202","W203","W204","W205","W206","W207","W208","W209","W210"};
+	String [] rooms = {"Room 1","Room 2","IT Room"};
 
 	
 	JButton OK = new JButton("OK!");
@@ -85,9 +85,9 @@ class ShowEventWindow extends JFrame {
 		label1.setBounds(50,95,300,20);
 		roomList.setBounds(50,150,200,20);
 		roomListLabel.setBounds(50,125,300,20);
-		timeList1.setBounds(110,188,75,20);
+		timeList1.setBounds(110,188,100,20);
 		timeListLabel1.setBounds(50,185,75,20);
-		timeList2.setBounds(273,188,75,20);
+		timeList2.setBounds(273,188,100,20);
 		timeListLabel2.setBounds(225,185,75,20);
 
 
@@ -110,6 +110,7 @@ class ShowEventWindow extends JFrame {
 
 		getContentPane().add(panel);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	//	setDefaultCloseOperation(JButton.ABORT);
 		setVisible(true);
 
 	}

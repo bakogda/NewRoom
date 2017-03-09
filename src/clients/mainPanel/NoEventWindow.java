@@ -11,7 +11,7 @@ class NoEventWindow extends JFrame {
 	}
 
 	String[] times = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
-	String [] rooms = {"W201","W202","W203","W204","W205","W206","W207","W208","W209","W210"};
+	String [] rooms = {"Room 1","Room 2","IT Room"};
 	JButton cancel = new JButton("OK!");
 	JPanel panel = new JPanel();
 	JLabel eventTitleLabel = new JLabel("No events on this day!");

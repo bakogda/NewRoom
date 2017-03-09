@@ -11,6 +11,8 @@ public class NewEventWindow extends JFrame {
 		}
 
 		String[] times = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
+		String [] rooms = {"Room 1","Room 2","IT Room"};
+
 
 		JButton createEvent = new JButton("Create Event");
 		JButton cancel = new JButton("Cancel");
