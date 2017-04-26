@@ -7,6 +7,7 @@ import clients.removeUser.*;
 import clients.notifications.*;
 */
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -59,11 +60,11 @@ public class MainView extends JFrame{
 
 
 		
-		/* 
-		 * //REMOVE USER
+
 		 
 		c.gridx = 0;
 		c.gridy = 2;
+		Component removeUserLabel = null;
 		mainView.add(removeUserLabel, c);
 		
 		c.gridx = 1;
@@ -80,7 +81,7 @@ public class MainView extends JFrame{
 			
 		});
 		
-		*/
+	
 		
 		//CREATE INVITATIONS
 		c.gridx = 0;
@@ -94,11 +95,11 @@ public class MainView extends JFrame{
 		createInvitationsButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				/*ShareView sView = new ShareView();
+				ShareView sView = new ShareView();
 				sView.setTitle("Create Event");
 				sView.setVisible(true);
 				clients.mainPanel.Main.runMainView();
-				*/
+				
 				clients.NewEventWindow newEvent = new clients.NewEventWindow();
 				
 				

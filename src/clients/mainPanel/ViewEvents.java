@@ -30,7 +30,7 @@ public class ViewEvents extends JFrame{
 	private Button cancel = new Button("Cancel");
 	final static String newline = "\n";
 
-	public ViewEvents() throws SQLException{
+	public ViewEvents() throws SQLException, ClassNotFoundException{
 		JPanel view = new JPanel(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(450, 400);

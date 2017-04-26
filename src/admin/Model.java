@@ -6,4 +6,9 @@ public class Model extends java.util.Observable {
 	{
 		System.out.println("Model()");
 	}
+
+	public static void addUser(String text, String pwd) {
+		// TODO Auto-generated method stub
+		
+	}
 }

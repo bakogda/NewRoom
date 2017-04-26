@@ -1,5 +1,8 @@
 package clients.adminPanel;
 
+import java.awt.event.ActionEvent;
+
+import clients.addUser.AddUserView;
 
 public class AdminController {
 	AdminModel model;
@@ -9,11 +12,11 @@ public class AdminController {
 		System.out.println("admin controller");
 	}
 	
-//	public void actionPerformed(ActionEvent e){
-//		AddUserView auView = new AddUserView();
-//		auView.setTitle("Add User");
-//		auView.setVisible(true);
-//	}
+	public void actionPerformed(ActionEvent e){
+		AddUserView auView = new AddUserView();
+		auView.setTitle("Add User");
+		auView.setVisible(true);
+	}
 	
 	public void addModel(AdminModel m){
 		this.model = m;

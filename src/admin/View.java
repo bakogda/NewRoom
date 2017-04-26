@@ -26,16 +26,16 @@ import javax.swing.JPasswordField;
 			
 			frame.add("North", new Label("Enter your username and password here !"));
 			frame.add("Center", login);
-			Panel panel			= new Panel();
+			Panel panel	= new Panel();
 			
 			panel.add(login);
 			panel.add(pwd);
 			panel.add(button);
-			frame.add("South" , panel);
+			frame.add("Center" , panel);
 			
 			frame.addWindowListener(new CloseListener());
-			frame.setSize(400,100);
-			frame.setLocation(200,200);
+			frame.setSize(400,400);
+			frame.setLocation(350,350);
 			frame.setVisible(true);
 			
 		}

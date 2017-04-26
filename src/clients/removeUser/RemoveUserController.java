@@ -24,6 +24,9 @@ public class RemoveUserController implements ActionListener {
 				RemoveUserModel.removeUser(un);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			rView.toggleOff();
 		}

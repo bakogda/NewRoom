@@ -29,6 +29,9 @@ public class ResetPasswordController implements ActionListener{
 				ResetPasswordModel.resetPassword(un,pw);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			rsView.toggleOff();
 			

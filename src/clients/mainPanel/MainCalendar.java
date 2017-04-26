@@ -96,6 +96,9 @@ public class MainCalendar extends JFrame {
 							System.out.println(theDate);
 						} catch (SQLException e1) {
 							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 						view.setTitle("View Events");
 						view.setVisible(true);

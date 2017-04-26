@@ -12,7 +12,7 @@ public class ResetPasswordModel {
 		System.out.println("Reset Password model:");
 	}
 	
-	public static void resetPassword(String un, String pw) throws SQLException {
+	public static void resetPassword(String un, String pw) throws SQLException, ClassNotFoundException {
 		String combine = un + pw;
 		String hashed = database.hash.sha1(combine);
 		

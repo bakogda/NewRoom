@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 class ShowEventWindow extends JFrame {
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		ShowEventWindow frameTabel = new ShowEventWindow();
 	}
 
@@ -27,7 +27,7 @@ class ShowEventWindow extends JFrame {
 	JComboBox timeList2 = new JComboBox(times);
 	JLabel timeListLabel2 = new JLabel("Until:");
 
-	ShowEventWindow() throws SQLException{
+	ShowEventWindow() throws SQLException, ClassNotFoundException{
 		super("Show Event");
 		setSize(420,450);
 		setLocation(750,250);

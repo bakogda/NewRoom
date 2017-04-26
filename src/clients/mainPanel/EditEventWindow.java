@@ -14,7 +14,7 @@ public class EditEventWindow extends JFrame {
 		}
 		
 		String[] times = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
-	
+		String[] rooms = {"Room 1","Room 2","IT Room"};
 		JButton createEvent = new JButton("Save");
 		JButton deleteEvent = new JButton("Delete");
 		JButton cancel = new JButton("Cancel");
@@ -25,7 +25,7 @@ public class EditEventWindow extends JFrame {
 		JLabel eventDescLabel = new JLabel("Event Description:");
 		JLabel roomListLabel = new JLabel("Select Room:");
 		JLabel timeListLabel1 = new JLabel("From:");
-		JComboBox roomList = new JComboBox();
+		JComboBox roomList = new JComboBox(rooms);
 		JComboBox timeList1 = new JComboBox(times);
 		JComboBox timeList2 = new JComboBox(times);
 		JLabel timeListLabel2 = new JLabel("Until:");
