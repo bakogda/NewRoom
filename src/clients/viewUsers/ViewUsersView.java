@@ -81,9 +81,11 @@ public class ViewUsersView extends JFrame{
 	}
 	
 	public static void viewUsers() throws SQLException{
-		String SQL_statement = "select * from " + database.createDB.tbl_user;
+		String SQL_statement = "select username, firstname , lastname from " + database.JDBConnect.tbl_user;
 		
-		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+		Connection connection = DriverManager.getConnection(
+				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+				"password");
 		
 		//create a new statement
 		Statement statement = connection.createStatement();

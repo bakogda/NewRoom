@@ -20,8 +20,10 @@ public class AddUserModel {
 		if(!database.queryDB.checkUser(usn)){
 			//username does not exist in  the database
 			//insert user data into user table
-			Connection conn = DriverManager.getConnection(dBV.JDBC_URL);
-			conn.createStatement().execute(addUserSQL);
+			Connection connection = DriverManager.getConnection(
+					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+					"password");			
+			connection.createStatement().execute(addUserSQL);
 			System.out.println("User " + usn + " added!");
 		}
 		else {

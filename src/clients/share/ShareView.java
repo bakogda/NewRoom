@@ -28,8 +28,8 @@ public class ShareView extends JFrame{
 	
 	
 	public ShareView(){
-//		super("Share Management");
-//		setLayout(new GridBagLayout());
+		super("Share Management");
+		setLayout(new GridBagLayout());
 		JPanel shareView = new JPanel(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(450, 300);
