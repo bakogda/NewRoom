@@ -40,15 +40,14 @@ class Controller implements java.awt.event.ActionListener {
 					view.toggleOff();
 					
 					//open adminControl GUI && Hide login screen
-//					adminControl sView = new adminControl();
-//					sView.setTitle("Admin Control Panel");
-//					sView.setVisible(true);
-//					view.toggleOff();
+					adminControl sView = new adminControl();
+				sView.setTitle("Admin Control Panel");
+				sView.setVisible(true);
+				view.toggleOff();
 				}
 				else {
 					//open normal user GUI here
-					//clients.mainPanel.Main.runMainView();
-		//			clients.mainPanel.MainCalendar.MainCalendar();
+					clients.mainPanel.Main.runMainView();
 					MainCalendar cView = new MainCalendar();
 					cView.setTitle("Main Calendar");
 					view.toggleOff();
@@ -67,6 +66,9 @@ class Controller implements java.awt.event.ActionListener {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			System.out.println("Error: login failed");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
 	}
