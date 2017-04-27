@@ -28,7 +28,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 
-import database.createDB;
+import database.JDBConnect;
 import database.queryDB;
 
 public class adminControl extends JFrame

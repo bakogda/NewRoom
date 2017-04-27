@@ -60,7 +60,10 @@ public class MainView extends JFrame{
 
 
 		
-
+		 /* 
+		 
+	     * //REMOVE USER
+	 
 		 
 		c.gridx = 0;
 		c.gridy = 2;
@@ -80,7 +83,7 @@ public class MainView extends JFrame{
 			}
 			
 		});
-		
+		*/
 	
 		
 		//CREATE INVITATIONS

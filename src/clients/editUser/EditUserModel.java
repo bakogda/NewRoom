@@ -15,7 +15,7 @@ public class EditUserModel {
 	//add a new user to the database
 	public static void editUser(String usn, String fn, String ln, String typ) throws ClassNotFoundException, SQLException{
 		
-		String updateUserSQL = "update " + database.createDB.tbl_user + " set FIRSTNAME='" + fn + "', LASTNAME='" + ln + "', USERTYPE='" + typ + "' where USERNAME='" + usn + "'";
+		String updateUserSQL = "update " + database.JDBConnect.tbl_user + " set FIRSTNAME='" + fn + "', LASTNAME='" + ln + "', USERTYPE='" + typ + "' where USERNAME='" + usn + "'";
 		
 		//it would be nice to compare the current details with the new ones to see if any change needs to take place at all
 		

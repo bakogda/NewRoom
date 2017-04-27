@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 
 
 public class queryDB {
-	public static final String SQL_statement = "SELECT * FROM " + database.createDB.tbl_user;
+	public static final String SQL_statement = "SELECT * FROM " + database.JDBConnect.tbl_user;
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
@@ -115,7 +115,7 @@ public class queryDB {
 	}
 
 	public static void addEvent(String title, String date, String room, String st, String et, String desc) throws ClassNotFoundException, SQLException{
-		String addEventSQL = "insert into " + database.createDB.tbl_event + "(TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR) values ('" + title + "','" + date + "','" + room + "','" + st +"','" + et + "','" + desc + "')";
+		String addEventSQL = "insert into " + database.JDBConnect.tbl_event + "(TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR) values ('" + title + "','" + date + "','" + room + "','" + st +"','" + et + "','" + desc + "')";
 
 		Class.forName("org.postgresql.Driver");
 		Connection conn = DriverManager.getConnection(

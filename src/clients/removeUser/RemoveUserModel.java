@@ -14,7 +14,7 @@ public class RemoveUserModel {
 	//remove a user from the database
 	public static void removeUser(String username) throws SQLException, ClassNotFoundException{
 		
-		String removeUserSQL = "delete from " + database.createDB.tbl_user + " where USERNAME='" + username + "'";
+		String removeUserSQL = "delete from " + database.JDBConnect.tbl_user + " where USERNAME='" + username + "'";
 		
 		if(database.queryDB.checkUser(username)){
 			//username exists

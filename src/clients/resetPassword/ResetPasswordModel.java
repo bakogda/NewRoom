@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import database.dBV;
-
 public class ResetPasswordModel {
 
 	public ResetPasswordModel(){
@@ -26,10 +24,13 @@ public class ResetPasswordModel {
 			else {
 				//username is correct password is different
 				//update user details
-				String resetPasswordSQL = "update " + database.createDB.tbl_user + " set PASSWORD='" + hashed + "' where USERNAME='" + un + "'";
+				String resetPasswordSQL = "update " + database.JDBConnect.tbl_user + " set PASSWORD='" + hashed + "' where USERNAME='" + un + "'";
 				
-				Connection conn = DriverManager.getConnection(dBV.JDBC_URL);
-				conn.createStatement().execute(resetPasswordSQL);
+				Class.forName("org.postgresql.Driver");
+				Connection connection = DriverManager.getConnection(
+						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+						"password");
+				connection.createStatement().execute(resetPasswordSQL);
 				System.out.println(un + "'s password is reset!");
 			}
 		}

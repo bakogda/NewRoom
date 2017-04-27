@@ -15,7 +15,7 @@ public class AddUserModel {
 	public static void addUser(String usn, String pwd, String fn, String ln, String typ) throws ClassNotFoundException, SQLException{
 		String combine = usn + pwd;
 		String hashed = database.hash.sha1(combine);
-		String addUserSQL = "insert into " + database.createDB.tbl_user + " values ('" + usn + "','" + hashed + "','" + fn + "','" + ln + "','" + typ + "')";
+		String addUserSQL = "insert into " + database.JDBConnect.tbl_user + " values ('" + usn + "','" + hashed + "','" + fn + "','" + ln + "','" + typ + "')";
 	
 		if(!database.queryDB.checkUser(usn)){
 			//username does not exist in  the database

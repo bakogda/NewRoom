@@ -19,9 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import database.dBV;
-
-
 
 public class EditUserView extends JFrame{
 
@@ -201,10 +198,12 @@ public class EditUserView extends JFrame{
 	}
 	
 	public String getFN(String usn) throws SQLException{
-		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+		Connection connection = DriverManager.getConnection(
+				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+				"password");		
 		Statement statement = connection.createStatement();
 		
-		String s= "SELECT FIRSTNAME FROM " + database.createDB.tbl_user + " WHERE USERNAME = '" + usn + "'";
+		String s= "SELECT FIRSTNAME FROM " + database.JDBConnect.tbl_user + " WHERE USERNAME = '" + usn + "'";
 		ResultSet resultSet = statement.executeQuery(s);
 	
 		ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -224,10 +223,12 @@ public class EditUserView extends JFrame{
 	}
 	
 	public String getLN(String usn) throws SQLException{
-		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+		Connection connection = DriverManager.getConnection(
+				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+				"password");		
 		Statement statement = connection.createStatement();
 		
-		String s= "SELECT LASTNAME FROM " + database.createDB.tbl_user + " WHERE USERNAME = '" + usn + "'";
+		String s= "SELECT LASTNAME FROM " + database.JDBConnect.tbl_user + " WHERE USERNAME = '" + usn + "'";
 		ResultSet resultSet = statement.executeQuery(s);
 	
 		ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -247,10 +248,11 @@ public class EditUserView extends JFrame{
 		
 	}
 	public String getUT(String usn) throws SQLException{
-		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-		Statement statement = connection.createStatement();
+		Connection connection = DriverManager.getConnection(
+				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+				"password");		Statement statement = connection.createStatement();
 		
-		String s= "SELECT USERTYPE FROM " + database.createDB.tbl_user + " WHERE USERNAME = '" + usn + "'";
+		String s= "SELECT USERTYPE FROM " + database.JDBConnect.tbl_user + " WHERE USERNAME = '" + usn + "'";
 		ResultSet resultSet = statement.executeQuery(s);
 		ResultSetMetaData rsmd = resultSet.getMetaData();
 		int colCount = rsmd.getColumnCount();

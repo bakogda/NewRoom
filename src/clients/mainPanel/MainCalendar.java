@@ -77,7 +77,7 @@ public class MainCalendar extends JFrame {
 					}
 				}
 				if (e.getButton() == MouseEvent.BUTTON3){//right click twice to see if event on that day 
-					if (e.getClickCount() == 2) {
+					if (e.getClickCount() == 1) {
 				
 						ViewEvents view = null;
 						try {
@@ -165,6 +165,7 @@ public class MainCalendar extends JFrame {
 		tblCalendar.setColumnSelectionAllowed(true);
 		tblCalendar.setRowSelectionAllowed(true);
 		tblCalendar.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblCalendar.getBorder();
 
 		//Set row/column count
 		tblCalendar.setRowHeight(38);
@@ -325,16 +326,20 @@ public class MainCalendar extends JFrame {
 				}
 
 			}
-			/*
-			 * 			try {
+			
+			  			try {
 				if(database.queryDB.isEvent("2015-05-21") == true) {
 					setBackground(new Color(255,220,220));
 				}
-			} catch (SQLException e) {
+	
+			} catch (ClassNotFoundException e) {
 				System.out.println("Error with background colour, no date found?");
 				e.printStackTrace();
+			} catch (SQLException e) {
+				System.out.println("Error with background colour, no date found?");
+				e.printStackTrace();			
 			}
-			 */
+			 
 
 			setBorder(null);
 			setForeground(Color.black);
