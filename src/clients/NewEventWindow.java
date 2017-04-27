@@ -23,7 +23,7 @@ public class NewEventWindow extends JFrame {
 		JLabel eventDescLabel = new JLabel("Event Description:");
 		JLabel roomListLabel = new JLabel("Select Room:");
 		JLabel timeListLabel1 = new JLabel("From:");
-		JComboBox roomList = new JComboBox();
+		JComboBox roomList = new JComboBox(rooms);
 		JComboBox timeList1 = new JComboBox(times);
 		JComboBox timeList2 = new JComboBox(times);
 		JLabel timeListLabel2 = new JLabel("Until:");

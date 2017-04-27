@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import clients.mainPanel.DatePicker;
+
 public class AddUserView extends JFrame{
 
 	/**
@@ -56,7 +58,15 @@ public class AddUserView extends JFrame{
 		JPanel auView = new JPanel(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(500, 400);
-		
+		JLabel label = new JLabel("Select Date:");
+		JTextField text = new JTextField(20);
+		JButton b = new JButton("Date");
+		JFrame f = new JFrame();
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				text.setText(new DatePicker(f).setPickedDate());
+			}
+		});
 		/*
 		 * laying it out nicely
 		 */
@@ -88,24 +98,24 @@ public class AddUserView extends JFrame{
 		auView.add(lastname, c);
 		
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 6;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		auView.add(dobLabel, c);
+		auView.add(label, c);
 		
 		c.gridx = 1;
-		c.gridy = 2;
+		c.gridy = 6;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		auView.add(dob, c);
+		auView.add(b, c);
 		
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 7;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		auView.add(emailLabel, c);		
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 7;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		auView.add(email, c);
@@ -159,13 +169,13 @@ public class AddUserView extends JFrame{
 		auView.add(retypePassword, c);
 		
 		c.gridx = 1;
-		c.gridy = 6;
+		c.gridy = 9;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		auView.add(create, c);
 		
 		c.gridx = 2;
-		c.gridy = 6;
+		c.gridy = 9;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		auView.add(cancel, c);

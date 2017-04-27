@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import database.dBV;
 public class ViewEvents extends JFrame{
 	/**
 	 * Meow
@@ -35,6 +34,7 @@ public class ViewEvents extends JFrame{
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(450, 400);
 		events.setEditable(false);
+		
 		String date = MainCalendar.yod + "-" + MainCalendar.moy + "-" + MainCalendar.dom;
 		String date2 = MainCalendar.theDate;
 		String title = database.queryDB.getQuery("SELECT TITLE FROM EVENT WHERE DATE='" + date2 +"'");
@@ -60,9 +60,6 @@ public class ViewEvents extends JFrame{
 		else { 
 			events.setText("There are NO events on this day");
 		}
-		
-			
-		
 		
 		GridBagConstraints c = new GridBagConstraints();
 		scroll = new JScrollPane(events, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
