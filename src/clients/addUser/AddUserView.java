@@ -26,9 +26,10 @@ public class AddUserView extends JFrame{
 	String[] userT = {"Admin","User"};
 	private JLabel firstnameLabel = new JLabel("Firstname: ");
 	private JLabel lastnameLabel = new JLabel("Lastname: ");
-//	private JLabel dobLabel = new JLabel("Date of Birth: ");
+	private JLabel dobLabel = new JLabel("Date of Birth: ");
 	private JLabel userTypeLabel = new JLabel("User type: ");
 	private JComboBox userType1 = new JComboBox(userT);
+	private JLabel emailLabel = new JLabel("Email:	");
 	private JLabel usernameLabel = new JLabel("Username: ");
 	private JLabel passwordLabel = new JLabel("Password: ");
 	private JLabel retypePasswordLabel = new JLabel("Retype Password: ");
@@ -36,12 +37,12 @@ public class AddUserView extends JFrame{
 	//TEXT FIELDS
 	//there could be a button to automatically generate the username from the first, 
 	//lastname and a random number
-	//private JButton genUsernameButton = new JButton("Generate Username");
+	private JButton genUsernameButton = new JButton("Generate Username");
 	private JTextField firstname = new JTextField(10);
 	private JTextField lastname = new JTextField(10);
-//	private JTextField dob = new JTextField(10);
-//	private JTextField email = new JTextField(10);
-//	private JTextField userType = new JTextField(10);
+	private JTextField dob = new JTextField(10);
+	private JTextField email = new JTextField(10);
+	private JTextField userType = new JTextField(10);
 	private JTextField username = new JTextField(10);
 	private JPasswordField password = new JPasswordField(10);
 	private JPasswordField retypePassword = new JPasswordField(10);
@@ -54,7 +55,7 @@ public class AddUserView extends JFrame{
 	public AddUserView(){
 		JPanel auView = new JPanel(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setSize(400, 360);
+		this.setSize(500, 400);
 		
 		/*
 		 * laying it out nicely
@@ -86,29 +87,28 @@ public class AddUserView extends JFrame{
 		c.fill = GridBagConstraints.HORIZONTAL;
 		auView.add(lastname, c);
 		
-//		c.gridx = 0;
-//		c.gridy = 2;
-//		c.gridwidth = 1;
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		auView.add(dobLabel, c);
-//		
-//		c.gridx = 1;
-//		c.gridy = 2;
-//		c.gridwidth = 2;
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		auView.add(dob, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		auView.add(dobLabel, c);
 		
-//		c.gridx = 0;
-//		c.gridy = 3;
-//		c.gridwidth = 1;
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		auView.add(emailLabel, c);
-//		
-//		c.gridx = 1;
-//		c.gridy = 3;
-//		c.gridwidth = 2;
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		auView.add(email, c);
+		c.gridx = 1;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		auView.add(dob, c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		auView.add(emailLabel, c);		
+		c.gridx = 1;
+		c.gridy = 3;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		auView.add(email, c);
 		
 		c.gridx = 0;
 		c.gridy = 2;

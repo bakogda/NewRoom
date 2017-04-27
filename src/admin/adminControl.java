@@ -34,12 +34,12 @@ import database.queryDB;
 public class adminControl extends JFrame
 {
 	private static final long serialVersionUID = 1L;
-//	private JPanel contentPane;
-//	private JTextField textField;
-//	private JPasswordField passwordField;
-//	private JTextField textField_1;
-//	private JTextField textField_2;
-//	private JPasswordField passwordField_1;
+	private JPanel contentPane;
+	private JTextField textField;
+	private JPasswordField passwordField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JPasswordField passwordField_1;
 	
 	private JTextArea userLabel 	= new JTextArea(4,20);
 	private JButton addUserButton   = new JButton("Add User");
@@ -66,7 +66,7 @@ public class adminControl extends JFrame
 			{
 				try{
 					adminControl frame = new adminControl();
-							frame.setVisible(true);
+							frame.setVisible(false);
 				}catch (Exception e)
 				{
 					e.printStackTrace();
@@ -79,7 +79,7 @@ public class adminControl extends JFrame
 	/**
 	 * Create the frame.This is essentially the view
 	 * @throws SQLException 
-	 */
+	 *
 	public adminControl() throws SQLException
 	{
 		setTitle("Admin Control Panel");
@@ -146,71 +146,65 @@ public class adminControl extends JFrame
 		
 		this.add(adminView);
 
-//		btnLogout.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				LogoutView logoutView = new LogoutView();
-//				logoutView.setTitle("Logout?");
-//				logoutView.setVisible(true);
-//			}
-//		});
-//		 
-//		JButton btnNewButton = new JButton("Add!");
-//		btnNewButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				try {
-//					if(queryDB.checkUser(textField.getText()) == false) {
-//						//compare password fields 
-//						if(!Arrays.equals(passwordField.getPassword(),passwordField_1.getPassword())) {
-//							textField_1.setText("Passwords do not match");
-//						}
-//						else {
-//
-//							try {
-//
-//								//convert from char array to string to compare
-//								char pass[] = passwordField.getPassword();
-//								String pwd = new String( pass);
-//								//add pw to db
-//								Model.addUser(textField.getText(), pwd);
-//								textField_1.setText("Username " + textField.getText() + " added to the database!");
-//							}
-//							catch (SQLException e2) {
-//								textField_1.setText("Username " + textField.getText() + " already exists in the database!");
-//
-//							}
-//						}
-//					}
-//					else if(queryDB.checkUser(textField.getText()) == true) {
-//						textField_1.setText("Username is in use!");
-//					}
-//
-//				}
-//				catch (SQLException e1) {
-//					e1.printStackTrace();
-//				}
-//				catch (ClassNotFoundException e1) {
-//
-//					e1.printStackTrace();
-//				}
-//			}
-//		});
-//		
-//		btnViewUsers.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				try {
-//					queryDB.main(null);
-//				} catch (ClassNotFoundException e1) {
-//					e1.printStackTrace();
-//				} catch (SQLException e1) {
-//					e1.printStackTrace();
-//				}
-//
-//			}
-//		});
+		btnLogout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LogoutView logoutView = new LogoutView();
+				logoutView.setTitle("Logout?");
+				logoutView.setVisible(true);
+			}
+		});
+		 
+		JButton btnNewButton = new JButton("Add!");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(queryDB.checkUser(textField.getText()) == false) {
+						//compare password fields 
+						if(!Arrays.equals(passwordField.getPassword(),passwordField_1.getPassword())) {
+						textField_1.setText("Passwords do not match");
+						}
+						else {
+
+							//convert from char array to string to compare
+								char pass[] = passwordField.getPassword();
+								String pwd = new String( pass);
+								//add pw to db
+								Model.addUser(textField.getText(), pwd);
+								textField_1.setText("Username " + textField.getText() + " added to the database!");
+						}
+					}
+					else if(queryDB.checkUser(textField.getText()) == true) {
+						textField_1.setText("Username is in use!");
+					}
+
+				}
+				catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				catch (ClassNotFoundException e1) {
+
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
+		/*
+		btnViewUsers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					queryDB.main(null);
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		});
 
 	}
-	
+	*/
 	public void toggleOn(){
 		this.setVisible(true);
 	}

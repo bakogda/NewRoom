@@ -3,6 +3,7 @@ package clients.editUser;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import database.dBV;
 
@@ -22,11 +23,13 @@ public class EditUserModel {
 		if(database.queryDB.checkUser(usn)){
 			//user name does exist in the database
 			//insert user data into user table
-			Connection conn = DriverManager.getConnection(dBV.JDBC_URL);
+			Connection connection = DriverManager.getConnection(
+					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+					"password");		
 			System.out.println("here");
-			conn.createStatement().execute(updateUserSQL);
+			connection.createStatement().execute(updateUserSQL);
 			System.out.println("here2");
-			conn.close();
+			connection.close();
 			System.out.println("should have closed");
 			System.out.println(usn + "'s details have been changed!");
 		}

@@ -13,10 +13,10 @@ import java.awt.event.ActionListener;	//for addController()
 
 import javax.swing.JPasswordField;
 
-	class View implements java.util.Observer
+	public class View implements java.util.Observer
 	{
 		Frame frame 	= new Frame("Login to the calendar!");
-		private TextField login = new TextField(15);
+		private static TextField login = new TextField(15);
 		private JPasswordField pwd = new JPasswordField(15);
 		private Button button = new Button("Login");
 		
@@ -60,7 +60,7 @@ import javax.swing.JPasswordField;
 			frame.dispose();
 		}
 		
-		public String getLogin()
+		public static String getLogin()
 		{
 			return login.getText();
 		}

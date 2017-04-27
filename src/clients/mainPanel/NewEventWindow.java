@@ -5,9 +5,12 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
+import admin.View;
+
 class NewEventWindow extends JFrame {
 	public static void main(String[] args) {
 		NewEventWindow frameTabel = new NewEventWindow();
+		
 	}
 
 	String[] times = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
@@ -26,6 +29,7 @@ class NewEventWindow extends JFrame {
 	JComboBox timeList1 = new JComboBox(times);
 	JComboBox timeList2 = new JComboBox(times);
 	JLabel timeListLabel2 = new JLabel("Until:");
+	String usn = View.getLogin();
 
 	NewEventWindow(){
 		super("Create New Event");
@@ -44,7 +48,8 @@ class NewEventWindow extends JFrame {
 		eventTitle.setBounds(50,45,300,20);
 		eventDesc.setBounds(50,255,300,100);
 		createEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
+			public void actionPerformed(ActionEvent e) {
+				String username = usn;	
 				String title = eventTitle.getText();
 				String date = label1.getText();
 				String room = (String)roomList.getSelectedItem();
@@ -54,7 +59,7 @@ class NewEventWindow extends JFrame {
 
 
 				try {
-					database.queryDB.addEvent(title, date, room, st, et, desc);
+					database.queryDB.addEvent(username, title, date, room, st, et, desc);
 					database.queryDB.query("SELECT * FROM event");
 				} catch (SQLException e1) {
 					System.out.println("Error!");

@@ -40,8 +40,8 @@ public class EditUserView extends JFrame{
 	//private JButton genUsernameButton = new JButton("Generate Username");
 	private JTextField firstname = new JTextField(10);
 	private JTextField lastname = new JTextField(10);
-//	private JTextField dob = new JTextField(10);
-//	private JTextField email = new JTextField(10);
+	private JTextField dob = new JTextField(10);
+	private JTextField email = new JTextField(10);
 	private JTextField userType = new JTextField(10);
 	private JTextField username = new JTextField(10);
 	

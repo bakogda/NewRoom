@@ -114,8 +114,8 @@ public class queryDB {
 
 	}
 
-	public static void addEvent(String title, String date, String room, String st, String et, String desc) throws ClassNotFoundException, SQLException{
-		String addEventSQL = "insert into " + database.JDBConnect.tbl_event + "(TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR) values ('" + title + "','" + date + "','" + room + "','" + st +"','" + et + "','" + desc + "')";
+	public static void addEvent(String username, String title, String date, String room, String st, String et, String desc) throws ClassNotFoundException, SQLException{
+		String addEventSQL = "insert into " + database.JDBConnect.tbl_event + "(USERNAME, TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR) values ('" + username + "','" + title + "','" + date + "','" + room + "','" + st +"','" + et + "','" + desc + "')";
 
 		Class.forName("org.postgresql.Driver");
 		Connection conn = DriverManager.getConnection(

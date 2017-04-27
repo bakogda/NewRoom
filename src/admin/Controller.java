@@ -42,7 +42,7 @@ class Controller implements java.awt.event.ActionListener {
 					//open adminControl GUI && Hide login screen
 					adminControl sView = new adminControl();
 				sView.setTitle("Admin Control Panel");
-				sView.setVisible(true);
+				sView.setVisible(false);
 				view.toggleOff();
 				}
 				else {
