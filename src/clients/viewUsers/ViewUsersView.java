@@ -26,7 +26,7 @@ import database.dBV;
 public class ViewUsersView extends JFrame{
 
 	/**
-	 * Meow
+	 * Bako Gdaniec
 	 */
 	private static final long serialVersionUID = 1L;
 	//create all objects on which will be on the panel

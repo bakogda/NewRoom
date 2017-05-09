@@ -18,6 +18,9 @@ import clients.addUser.AddUserView;
 import clients.editUser.EditUserController;
 import clients.editUser.EditUserModel;
 import clients.editUser.EditUserView;
+import clients.removeEvent.RemoveEventController;
+import clients.removeEvent.RemoveEventModel;
+import clients.removeEvent.RemoveEventView;
 import clients.removeUser.RemoveUserController;
 import clients.removeUser.RemoveUserModel;
 import clients.removeUser.RemoveUserView;
@@ -39,6 +42,7 @@ public class AdminView extends JFrame{
 	private JButton viewUsersButton 	= new JButton("View Users");
 	private JButton removeUserButton 	= new JButton("Remove User");
 	private JButton resetPassButton 	= new JButton("Reset Password");
+	private JButton removeEventButton   = new JButton("Remove Event");
 	private JButton viewLogsButton 		= new JButton("View Logs");
 	private JButton btnLogout 			= new JButton("Logout");
 	
@@ -148,7 +152,26 @@ public class AdminView extends JFrame{
 			}
 		});
 		
+		c.gridx = 0; c.gridy = 5;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.VERTICAL;
+		adminView.add(removeEventButton, c);
 		
+		removeEventButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RemoveEventModel rmModel = new RemoveEventModel();
+				RemoveEventView rmView = new RemoveEventView();
+				RemoveEventController rmCont = new RemoveEventController();
+				rmCont.addModel(rmModel);
+				rmCont.addView(rmView);
+				rmView.aclRemove(rmCont);
+				rmView.setTitle("Remove Event");
+				rmView.setVisible(true);
+				
+			}
+		});
 		
 		
 		//####----THIS WILL NOT BE IMPLEMENTED YET----####//
