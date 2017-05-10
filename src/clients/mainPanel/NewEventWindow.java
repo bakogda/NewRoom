@@ -1,9 +1,16 @@
 package clients.mainPanel;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.*;
+
+import org.postgresql.PGStatement;
 
 import admin.View;
 
@@ -43,6 +50,8 @@ class NewEventWindow extends JFrame {
 		//JTextField text = new JTextField(20);
 		final JFrame f = new JFrame();
 
+		
+		
 		eventDesc.setLineWrap(true);
 		eventDesc.setWrapStyleWord(true);
 		eventTitle.setBounds(50,45,300,20);
@@ -56,11 +65,24 @@ class NewEventWindow extends JFrame {
 				String st = (String)timeList1.getSelectedItem();
 				String et = (String)timeList2.getSelectedItem();
 				String desc = eventDesc.getText();	
-
-
+				
+		
 				try {
+					Class.forName("org.postgresql.Driver");
+					Connection connection = DriverManager.getConnection(
+									"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+									"password");
+					Statement statement = connection.createStatement();
+					ResultSet resultSet = statement.executeQuery("SELECT * FROM event WHERE DATE='"+ date +"'AND STARTTIME BETWEEN '"+ st +"'AND '"+ et +"'");
+					if(resultSet.next())
+					{
+						JOptionPane.showMessageDialog(null, new Object[] {
+							    "Event already exists at this time in the '"+ room +"' Please Choose different Room or Time"			    
+							    });					
+						}else
+					{
 					database.queryDB.addEvent(username, title, date, room, st, et, desc);
-					database.queryDB.query("SELECT * FROM event");
+					}
 				} catch (SQLException e1) {
 					System.out.println("Error!");
 					e1.printStackTrace();
