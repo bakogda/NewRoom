@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 public class ShareView extends JFrame{
 
 	/**
-	 * Meow
+	 * Bako Gdaniec
 	 */
 	private static final long serialVersionUID = 1L;
 	//create all objects on which will be on the panel

@@ -1,9 +1,8 @@
 package clients.mainPanel;
 
 import clients.share.*;
-import clients.addUser.*;
-import clients.createInvitation.*;
-import clients.removeUser.*;
+import client.historyEvent.*;
+
 import clients.mainPanel.ViewEvents;
 //import clients.notifications.*;
 
@@ -29,19 +28,21 @@ public class MainView extends JFrame{
 	private JLabel createInvitationLabel = new JLabel("Create Invitation: ");
 	private JLabel notificationsLabel = new JLabel("Notification(s): ");
 	private JLabel myEventsLabel = new  JLabel("My Event(s): ");
+	private JLabel historyEventLabel = new JLabel("Past Event(s): ");
 	private JButton shareButton = new JButton("Share");
 	private JButton addUserButton = new JButton("Add");
 	private JButton removeUserButton = new JButton("Remove");
 	private JButton createInvitationsButton = new JButton("Create");
 	private JButton notificationsButton = new JButton("Manage");
 	private JButton myEvents	= new JButton("Events");
+	private JButton historyEvent = new JButton("Event(s):");
 
 	MainView(){
 		JPanel mainView = new JPanel(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(700, 300);
+		this.setSize(900, 500);
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(5,5,5,5);//padding
+		c.insets = new Insets(6,6,6,6);//padding
 		
 		//SHARE MANAGEMENT
 		c.gridx = 0;
@@ -105,8 +106,7 @@ public class MainView extends JFrame{
 				ShareView sView = new ShareView();
 				sView.setTitle("Create Event");
 				sView.setVisible(true);
-				clients.mainPanel.Main.runMainView();
-				
+ 				
 				clients.NewEventWindow newEvent = new clients.NewEventWindow();
 				
 				
@@ -160,6 +160,31 @@ public class MainView extends JFrame{
 			
 				clients.mainPanel.Main.runMainView();
 				
+			}
+		});
+		c.gridx = 0;
+		c.gridy = 6;
+		mainView.add(historyEventLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 6;
+		mainView.add(historyEvent, c);
+		
+		historyEvent.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					HistoryEventView histEvent = null;
+					try {
+						histEvent = new HistoryEventView();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					histEvent.setTitle("Past Event(s)");
+					histEvent.setVisible(true);
 			}
 		});
 		

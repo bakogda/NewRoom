@@ -151,6 +151,25 @@ public class queryDB {
 
 		return false;
 	}
+	
+	public static boolean histEvent(String date, String username) throws SQLException, ClassNotFoundException {
+		Class.forName("org.postgresql.Driver");
+		Connection connection = DriverManager.getConnection(
+						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+						"password");
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery("SELECT * FROM event WHERE DATE<'" + date + "'AND USERNAME='" + username +"'");
+		ResultSetMetaData rsmd = resultSet.getMetaData(); 
+
+		//loop through number of columns
+		int colCount = rsmd.getColumnCount();
+		System.out.println(colCount);
+		System.out.println("Event with title " + username + " added!");
+		if (statement != null) statement.close();
+		if (connection != null) connection.close();
+
+		return false;
+	}
 
 	public static String getQuery(String theQuery) throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");

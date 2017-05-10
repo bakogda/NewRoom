@@ -25,9 +25,9 @@ public class MainCalendar extends JFrame {
 	static JPanel pnlCalendar;
 	static int realYear, realMonth, realDay, currentYear, currentMonth;
 	static JLabel label = new JLabel(getMonth(currentMonth));
-	static String dom;
-	static String moy;
-	static String yod;
+	public static String dom;
+	public static String moy;
+	public static String yod;
 	public static String theDate;
 
 
@@ -65,7 +65,7 @@ public class MainCalendar extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getButton() == MouseEvent.BUTTON1) {//left click to add button
-					if (e.getClickCount() == 2) {
+					if (e.getClickCount() == 1) {
 						int row = tblCalendar.getSelectedRow();
 						int column = tblCalendar.getSelectedColumn();
 						dom = tblCalendar.getValueAt(row, column).toString();
@@ -79,10 +79,26 @@ public class MainCalendar extends JFrame {
 						cmbYear.setSelectedItem(Color.black);
 						theDate = MainCalendar.yod + "-" + MainCalendar.moy + "-" + MainCalendar.dom;
 						System.out.println(theDate);
-						
-						new NewEventWindow();
 					}
-				}
+						else if (e.getClickCount() == 2)
+						{
+							int row = tblCalendar.getSelectedRow();
+							int column = tblCalendar.getSelectedColumn();
+							dom = tblCalendar.getValueAt(row, column).toString();
+							if(currentMonth < 10) {
+								moy = "0" + (currentMonth+1) + "";
+							}
+							else { 
+								moy = (currentMonth+1) + "";
+							}
+							yod = cmbYear.getSelectedItem().toString();
+							cmbYear.setSelectedItem(Color.black);
+							theDate = MainCalendar.yod + "-" + MainCalendar.moy + "-" + MainCalendar.dom;
+							new NewEventWindow();
+						}
+						
+					}
+				
 				if(e.getButton() == MouseEvent.BUTTON1)
 				{
 					if(e.getClickCount() == 1)
@@ -124,7 +140,6 @@ public class MainCalendar extends JFrame {
 						} catch (SQLException e1) {
 							e1.printStackTrace();
 						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						view.setTitle("View Events");
