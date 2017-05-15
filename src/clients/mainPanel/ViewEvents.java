@@ -34,6 +34,7 @@ public class ViewEvents extends JFrame{
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(450, 400);
 		events.setEditable(false);
+		events.setText(null);
 		
 		String date = MainCalendar.yod + "-" + MainCalendar.moy + "-" + MainCalendar.dom;
 		String date2 = MainCalendar.theDate;

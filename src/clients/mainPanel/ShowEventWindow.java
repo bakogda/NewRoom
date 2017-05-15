@@ -20,8 +20,10 @@ class ShowEventWindow extends JFrame {
 	JPanel panel = new JPanel();
 	JTextField eventTitle = new JTextField(20);
 	JTextArea eventDesc = new JTextArea();
+	JTextArea eventNotes = new JTextArea();
 	JLabel eventTitleLabel = new JLabel("Event Title:");
 	JLabel eventDescLabel = new JLabel("Description:");
+	JLabel eventNotesLabel = new JLabel("Event Notes:");
 	JLabel roomListLabel = new JLabel("Room:");
 	JLabel timeListLabel1 = new JLabel("From:");
 	JComboBox roomList = new JComboBox(rooms);
@@ -51,6 +53,10 @@ class ShowEventWindow extends JFrame {
 
 		eventDesc.setLineWrap(true);
 		eventDesc.setWrapStyleWord(true);
+		eventNotes.setLineWrap(true);
+		eventNotes.setWrapStyleWord(true);
+		eventDesc.setBounds(50,255,300,100);
+		eventNotes.setBounds(50, 400, 300, 100);
 		eventTitle.setBounds(50,45,300,20);
 		eventDesc.setBounds(50,255,300,100);
 		OK.addActionListener(new ActionListener() {
@@ -62,10 +68,10 @@ class ShowEventWindow extends JFrame {
 				String st = (String)timeList1.getSelectedItem();
 				String et = (String)timeList2.getSelectedItem();
 				String desc = eventDesc.getText();	
-
+				String notes = eventNotes.getText();
 
 				try {
-					database.queryDB.addEvent(username, title, date, room, st, et, desc);
+					database.queryDB.addEvent(username, title, date, room, st, et, desc, notes);
 					database.queryDB.query("SELECT * FROM event");
 				} catch (SQLException e1) {
 					System.out.println("Error!");
@@ -83,6 +89,7 @@ class ShowEventWindow extends JFrame {
 		OK.setBounds(10, 375, 75, 30);
 		eventTitleLabel.setBounds(50,20,300,20);
 		eventDescLabel.setBounds(50,185,300,100);
+		eventNotesLabel.setBounds(50, 335, 300, 100);
 		label.setBounds(50,70,300,20);
 		//text.setBounds(50,95,300,20);
 		//text.setText(MainCalendar.dom);
@@ -102,6 +109,8 @@ class ShowEventWindow extends JFrame {
 		panel.add(eventDesc);
 		panel.add(eventTitleLabel);
 		panel.add(eventDescLabel);
+		panel.add(eventNotes);
+		panel.add(eventNotesLabel);
 		panel.add(label);
 		//panel.add(text);
 		panel.add(roomList);

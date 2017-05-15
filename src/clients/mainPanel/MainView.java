@@ -2,7 +2,9 @@ package clients.mainPanel;
 
 import clients.share.*;
 import client.historyEvent.*;
-
+import clients.currentShares.CurrentSharesView;
+import clients.editEvent.EditEventView;
+import clients.eventNotes.EventNotesView;
 import clients.mainPanel.ViewEvents;
 //import clients.notifications.*;
 
@@ -23,19 +25,24 @@ import javax.swing.JPanel;
 public class MainView extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	
+	//LABELS
 	private JLabel shareLabel = new JLabel("Share Management: ");
 	private JLabel createInvitationLabel = new JLabel("Create Invitation: ");
 	private JLabel notificationsLabel = new JLabel("Notification(s): ");
 	private JLabel myEventsLabel = new  JLabel("My Event(s): ");
 	private JLabel historyEventLabel = new JLabel("Past Event(s): ");
-	private JButton shareButton = new JButton("Share");
+	private JLabel editEventLabel = new JLabel("Edit Your Event");
+	private JLabel eventNotesLabel = new JLabel("View Your Event Notes");
+	//BUTTONS
+	private JButton shareButton = new JButton("Invite Users");
 	private JButton addUserButton = new JButton("Add");
 	private JButton removeUserButton = new JButton("Remove");
 	private JButton createInvitationsButton = new JButton("Create");
 	private JButton notificationsButton = new JButton("Manage");
 	private JButton myEvents	= new JButton("Events");
 	private JButton historyEvent = new JButton("Event(s):");
+	private JButton editEvent = new JButton("Edit Event");
+	private JButton eventNotes = new JButton("View Notes");
 
 	MainView(){
 		JPanel mainView = new JPanel(new GridBagLayout());
@@ -57,7 +64,7 @@ public class MainView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				ShareView sView = new ShareView();
-				sView.setTitle("Share Management");
+				sView.setTitle("Invite User(s)");
 				sView.setVisible(true);
 			}
 		});
@@ -89,31 +96,6 @@ public class MainView extends JFrame{
 			
 		});
 		*/
-	
-		
-		//CREATE INVITATIONS
-		c.gridx = 0;
-		c.gridy = 3;
-		mainView.add(createInvitationLabel, c);
-		
-		c.gridx = 1;
-		c.gridy = 3;
-		mainView.add(createInvitationsButton, c);
-		
-		createInvitationsButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				ShareView sView = new ShareView();
-				sView.setTitle("Create Event");
-				sView.setVisible(true);
- 				
-				clients.NewEventWindow newEvent = new clients.NewEventWindow();
-				
-				
-				
-			}
-			
-		});
 		
 		//NOTIFICATIONS
 		c.gridx = 0;
@@ -127,8 +109,8 @@ public class MainView extends JFrame{
 		notificationsButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				ShareView sView = new ShareView();
-				sView.setTitle("Share Management");
+				CurrentSharesView sView = new CurrentSharesView();
+				sView.setTitle("Notification of new Invitations");
 				sView.setVisible(true);
 			}
 			
@@ -185,6 +167,47 @@ public class MainView extends JFrame{
 					}
 					histEvent.setTitle("Past Event(s)");
 					histEvent.setVisible(true);
+			}
+		});
+		
+		c.gridx = 0;
+		c.gridy = 7;
+		mainView.add(editEventLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 7;
+		mainView.add(editEvent, c);
+		
+		editEvent.addActionListener(new ActionListener(){
+			@Override
+			
+			public void actionPerformed(ActionEvent e)
+			{
+				EditEventView editEvent = null;
+				editEvent = new EditEventView();
+				editEvent.setTitle("Edit Event");
+				editEvent.setVisible(true);
+				}
+				
+		});
+		
+		c.gridx = 0;
+		c.gridy = 8;
+		mainView.add(eventNotesLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 8;
+		mainView.add(eventNotes, c);
+		
+		eventNotes.addActionListener(new ActionListener(){
+			@Override
+			
+			public void actionPerformed(ActionEvent e)
+			{
+				EventNotesView eventNotes = null;
+				eventNotes = new EventNotesView();
+				eventNotes.setTitle("Event Notes");
+				eventNotes.setVisible(true);
 			}
 		});
 		

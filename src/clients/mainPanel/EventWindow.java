@@ -20,8 +20,10 @@ class EventWindow extends JFrame {
 	JPanel panel = new JPanel();
 	JTextField eventTitle = new JTextField(20);
 	JTextArea eventDesc = new JTextArea();
+	JTextArea eventNotes = new JTextArea();
 	JLabel eventTitleLabel = new JLabel("Event Title:");
 	JLabel eventDescLabel = new JLabel("Description:");
+	JLabel eventNotesLabel = new JLabel("Event Notes:");
 	JLabel roomListLabel = new JLabel("Room:");
 	JLabel timeListLabel1 = new JLabel("From:");
 	JComboBox roomList = new JComboBox(rooms);
@@ -32,7 +34,7 @@ class EventWindow extends JFrame {
 
 	EventWindow(){
 		super("Create New Event");
-		setSize(420,450);
+		setSize(420,570);
 		setLocation(750,250);
 		panel.setLayout (null);
 
@@ -44,8 +46,13 @@ class EventWindow extends JFrame {
 
 		eventDesc.setLineWrap(true);
 		eventDesc.setWrapStyleWord(true);
+		eventNotes.setLineWrap(true);
+		eventNotes.setWrapStyleWord(true);
 		eventTitle.setBounds(50,45,300,20);
 		eventDesc.setBounds(50,255,300,100);
+		eventNotes.setBounds(50, 400, 300, 100);
+
+		
 		createEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				String username = usn;	
@@ -54,11 +61,12 @@ class EventWindow extends JFrame {
 				String room = (String)roomList.getSelectedItem();
 				String st = (String)timeList1.getSelectedItem();
 				String et = (String)timeList2.getSelectedItem();
+				String notes = eventNotes.getText();
 				String desc = eventDesc.getText();	
 
 
 				try {
-					database.queryDB.addEvent(username,title, date, room, st, et, desc);
+					database.queryDB.addEvent(username,title, date, room, st, et, desc, notes);
 					database.queryDB.query("SELECT * FROM event");
 				} catch (SQLException e1) {
 					System.out.println("Error!");
@@ -71,10 +79,11 @@ class EventWindow extends JFrame {
 				setVisible(false);
 			}
 		});
-		createEvent.setBounds(278,375,117,30);
-		cancel.setBounds(10, 375, 75, 30);
+		createEvent.setBounds(278,510,117,30);
+		cancel.setBounds(10, 510, 75, 30);
 		eventTitleLabel.setBounds(50,20,300,20);
 		eventDescLabel.setBounds(50,185,300,100);
+		eventNotesLabel.setBounds(50, 335, 300, 100);
 		label.setBounds(50,70,300,20);
 		//text.setBounds(50,95,300,20);
 		//text.setText(MainCalendar.dom);
@@ -93,6 +102,8 @@ class EventWindow extends JFrame {
 		panel.add(eventDesc);
 		panel.add(eventTitleLabel);
 		panel.add(eventDescLabel);
+		panel.add(eventNotes);
+		panel.add(eventNotesLabel);
 		panel.add(label);
 		//panel.add(text);
 		panel.add(roomList);

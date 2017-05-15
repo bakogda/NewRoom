@@ -41,7 +41,8 @@ public class HistoryEventView extends JFrame{
 	public HistoryEventView() throws SQLException, ClassNotFoundException{
 		JPanel view = new JPanel(new GridBagLayout());
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setSize(450, 400);
+		this.setSize(550, 550);
+		events.setSize(300,500);
 		events.setEditable(false);
 		try
 		{

@@ -14,9 +14,7 @@ import javax.swing.JTextField;
 
 public class RemoveUserView extends JFrame{
 
-	/**
-	 * Meow
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	//create all objects on which will be on the panel

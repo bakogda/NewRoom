@@ -23,7 +23,11 @@ public class MainCalendar extends JFrame {
 	static DefaultTableModel mtblCalendar; //Table model
 	static JScrollPane stblCalendar; //The scrollpane
 	static JPanel pnlCalendar;
-	static int realYear, realMonth, realDay, currentYear, currentMonth;
+	public static int realYear;
+	public static int realMonth;
+	static int realDay;
+	static int currentYear;
+	static int currentMonth;
 	static JLabel label = new JLabel(getMonth(currentMonth));
 	public static String dom;
 	public static String moy;
@@ -358,19 +362,8 @@ public class MainCalendar extends JFrame {
 			else{ //Week
 				setBackground(new Color(255, 255, 255));
 			}
-
-			/*	
-			 * Ignore this, was trying to find out each individual day of the calendar. just returns the current date 		
-				if(currentMonth < 10) {
-					theDate = currentYear + "-"+  "0" + (currentMonth+1) + "-" + realDay;
-				}
-				else { 
-					theDate = currentYear + "-"+ (currentMonth+1) + "-" +  realDay;
-				} 
-				System.out.println("THE DATE: " + theDate);
-
-			 */
 			
+		
 			//background for todays date
 			if (value != null){
 				if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth && currentYear == realYear){ //Today
