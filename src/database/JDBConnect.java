@@ -107,7 +107,7 @@ public static void eventTable() throws ClassNotFoundException, SQLException{
 		Connection connection = DriverManager.getConnection(
 						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
 						"password");
-		connection.createStatement().execute("create table " + tbl_event + "(E_ID SERIAL, USERNAME varchar(32), TITLE varchar(50), DATE date,ROOM varchar(50), STARTTIME TIME, ENDTIME TIME, DESCR varchar(200), NOTES varchar(8000), INV_ONE varchar(32), INV_TWO varchar(32), INV_THREE varchar(32), INV_FOUR varchar(32), INV_FIVE varchar(32), INV_SIX varchar(32), CREF INTEGER, PRIMARY KEY (E_ID))"); 
+		connection.createStatement().execute("create table " + tbl_event + "(E_ID SERIAL, USERNAME varchar(32), TITLE varchar(50), DATE date,ROOM varchar(50), STARTTIME TIME, ENDTIME TIME, DESCR varchar(200), NOTES varchar(8000), INV_ONE varchar(32), INV_ONE_CONFIRMATION varchar(32), INV_TWO varchar(32), INV_TWO_CONFRIMATION varchar(32), INV_THREE varchar(32), INV_THREE_CONFIRMATION varchar(32), INV_FOUR varchar(32), INV_FOUR_CONFIRMATION varchar(32), INV_FIVE varchar(32), INV_FIVE_CONFIRMATION varchar(32), INV_SIX varchar(32), INV_SIX_CONFIRMATION varchar(32), CREF INTEGER, PRIMARY KEY (E_ID))"); 
 
 		
 		System.out.println(tbl_event + " table created");
