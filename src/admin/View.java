@@ -11,6 +11,7 @@ import java.lang.Integer;		//int from Model is passed as an Integer
 import java.util.Observable;		//for update();
 import java.awt.event.ActionListener;	//for addController()
 
+import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 
 	public class View implements java.util.Observer
@@ -19,19 +20,29 @@ import javax.swing.JPasswordField;
 		private static TextField login = new TextField(15);
 		private JPasswordField pwd = new JPasswordField(15);
 		private Button button = new Button("Login");
+		JLabel welcome = new JLabel("Welcome Login to start using the service");
+		JLabel loginLabel = new JLabel("Enter your username: ");
+		JLabel passLabel = new JLabel("Enter your password: ");
 		
 		View()
 		{
 			System.out.println("View()");
-			
-			frame.add("North", new Label("Enter your username and password here !"));
-			frame.add("Center", login);
 			Panel panel	= new Panel();
+			panel.setLayout(null);
+			loginLabel.setBounds(6, 118, 137, 16);
 			
+			panel.add(loginLabel);
+			passLabel.setBounds(6, 170, 128, 16);
+			panel.add(passLabel);
+			welcome.setBounds(59, 65, 256, 16);
+			panel.add(welcome);
+			login.setBounds(157, 118, 190, 22);
 			panel.add(login);
+			pwd.setBounds(157, 165, 190, 26);
 			panel.add(pwd);
+			button.setBounds(157, 226, 137, 29);
 			panel.add(button);
-			frame.add("Center" , panel);
+			frame.add(panel);
 			
 			frame.addWindowListener(new CloseListener());
 			frame.setSize(400,400);

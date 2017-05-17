@@ -48,8 +48,6 @@ class Controller implements java.awt.event.ActionListener {
 				else {
 					//open normal user GUI here
 					clients.mainPanel.Main.runMainView();
-					MainCalendar cView = new MainCalendar();
-					cView.setTitle("Main Calendar");
 					view.toggleOff();
 					
 					

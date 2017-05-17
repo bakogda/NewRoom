@@ -7,20 +7,17 @@ import java.sql.Statement;
 
 public class JDBConnect {
 	public static final String tbl_user = "userdet";
-	public static final String tbl_cal = "calendar";
-	public static final String tbl_share = "share";
+	public static final String tbl_notes = "notes";
 	public static final String tbl_event = "event";
 	public static final String tbl_invite = "invite";
 	
 	public static void main(String[] args) throws ClassNotFoundException,SQLException {
 		userTable();
-		calendarTable();
-		shareTable();
 		eventTable();
 		inviteTable();
+		notesTable();
 		database.queryDB.main(args);
 	}
-
 
 		public static void userTable() throws ClassNotFoundException, SQLException{
 			try {
@@ -52,51 +49,7 @@ System.out.println("Table: " + tbl_user + " exists!");
 }
 
 }
-public static void calendarTable() throws ClassNotFoundException, SQLException {
-	//attempt to create and populate the table
-	try {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
-		connection.createStatement().execute("create table " + tbl_cal +"(C_ID SERIAL, COWNER varchar(32), PRIMARY KEY(C_ID))");
-		System.out.println(tbl_cal + " table created");
-		
-		//add some calendars for existing users
-		connection.createStatement().execute(
-				"insert into " + tbl_cal +" (COWNER) values " + 
-				"('admin'),"+
-				"('user')"); 
-		System.out.println(tbl_cal + " table populated");
-	}
-	catch (Exception e) {
-		System.out.println("Table: " + tbl_cal + " exists!");
-	}
-}
 
-//////////////////////////////////////////////////////////////////////////////////
-
-public static void shareTable() throws ClassNotFoundException, SQLException{
-	//start creating the database 
-	try {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
-		connection.createStatement().execute("create table " + tbl_share +" (S_ID SERIAL, COWNERREF varchar(32), CREC varchar(32), PRIMARY KEY (S_ID))");
-		System.out.println(tbl_share + " table created");
-		
-		//allow the admin to see the user's calendar
-		connection.createStatement().execute(
-				"insert into " + tbl_share +" (COWNERREF, CREC) values " + 
-				"('user','admin')"); 
-		System.out.println(tbl_share + " table populated");
-		System.out.println("All ok...");
-	}
-	catch (Exception e) {
-		System.out.println("Table: " + tbl_share + " exists!");
-	}
-}
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -134,6 +87,24 @@ public static void inviteTable() throws ClassNotFoundException, SQLException{
 	}
 	catch (Exception e) {
 		System.out.println("Table: " + tbl_invite + " exists!");
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
+private static void notesTable() {
+	try {
+		Class.forName("org.postgresql.Driver");
+		Connection connection = DriverManager.getConnection(
+				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+				"password");
+		connection.createStatement().execute("create table " + tbl_notes +" (I_ID SERIAL, SERNER varchar(32), RECIEVER varchar(32), E_IDREF INTEGER, MESSAGE varchar(200), PRIMARY KEY (I_ID))");
+		System.out.println(tbl_notes + " table created");
+		
+		System.out.println("All ok...");
+	}
+	catch (Exception e) {
+		System.out.println("Table: " + tbl_notes + " exists!");
 	}
 }
 }

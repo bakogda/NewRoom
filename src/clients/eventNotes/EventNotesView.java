@@ -1,8 +1,6 @@
 package clients.eventNotes;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -34,11 +32,13 @@ public class EventNotesView extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	JComboBox<String> eventNames = new JComboBox<String>();
+	JComboBox<String> ieventNames = new JComboBox<String>();
 	JPanel panel = new JPanel();
 	JTextArea notes = new JTextArea();
 	
 	JLabel notesLabel = new JLabel("Meeting Notes:");
-	JLabel eventNamesLabel = new JLabel("Your Events");
+	JLabel ieventNamesLabel = new JLabel("Invited Meeting:");
+	JLabel eventNamesLabel = new JLabel("Your Events:");
 	
 	JButton cancel = new JButton("Cancel");
 	JButton save = new JButton("Save Notes");
@@ -52,6 +52,8 @@ public class EventNotesView extends JFrame {
 		setSize(700,550);
 		setLocation(750,250);
 		notes.setText("");
+		eventNames.insertItemAt(null, 0);
+		ieventNames.insertItemAt(null, 0);
 		
 		try{
 			String SQL_statement = "SELECT TITLE FROM EVENT WHERE USERNAME='"+ usn +"'";
@@ -77,9 +79,33 @@ public class EventNotesView extends JFrame {
 		{
 		
 		}
+		try{
+			String SQL_statement = "SELECT TITLE FROM EVENT WHERE INV_ONE='"+ usn +"'OR INV_TWO='"+ usn +"'OR INV_THREE='"+ usn +"'OR INV_FOUR='"+ usn +"'OR INV_FIVE='"+ usn +"'OR INV_SIX='"+ usn +"'";
+			
+			Connection connection = DriverManager.getConnection(
+					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+					"password");
+			
+			//create a new statement
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(SQL_statement);
+			while(resultSet.next())
+			{
+				ieventNames.addItem(resultSet.getString(1));
+			}
+			
+			if (statement != null) statement.close();
+			if (connection != null) connection.close();
+		}catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "ERROR");
+		}finally
+		{
+		
+		}
 		panel.setLayout(null);
 		eventNamesLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		eventNamesLabel.setBounds(132,65,113,59);
+		eventNamesLabel.setBounds(66,65,123,59);
 		panel.add(eventNamesLabel);
 		
 		cancel.addActionListener(new ActionListener() {
@@ -94,10 +120,36 @@ public class EventNotesView extends JFrame {
 			public void actionPerformed(ActionEvent e)
 			{
 				String eName = (String)eventNames.getSelectedItem();
+				String eiName = (String)ieventNames.getSelectedItem();
 				String eNotes = (String)notes.getText();
 				
 				try
 				{
+					String SQL_statement = "SELECT * FROM EVENT WHERE INV_ONE='"+ usn +"'OR INV_TWO='"+ usn +"'OR INV_THREE='"+ usn +"'OR INV_FOUR='"+ usn +"'OR INV_FIVE='"+ usn +"'OR INV_SIX='"+ usn +"'";
+					
+					Connection connection = DriverManager.getConnection(
+							"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+							"password");
+					
+					//create a new statement
+					Statement statement = connection.createStatement();
+					ResultSet resultSet = statement.executeQuery(SQL_statement);
+					while(resultSet.next())
+					{
+						ieventNames.addItem(resultSet.getString(1));
+					}
+					
+					if (statement != null) statement.close();
+					if (connection != null) connection.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}finally
+				{
+				}
+				try{
+					if(eName != null);
+					{
 					Class.forName("org.postgresql.Driver");
 					Connection connection = DriverManager.getConnection(
 									"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
@@ -106,6 +158,16 @@ public class EventNotesView extends JFrame {
 						String SQL_statement = ("UPDATE EVENT SET NOTES = '"+ eNotes +"'WHERE USERNAME='"+ usn +"'AND TITLE='"+ eName +"'");
 						Statement statement = connection.createStatement();
 						statement.executeQuery(SQL_statement);
+					}else
+						Class.forName("org.postgresql.Driver");
+					Connection connection1 = DriverManager.getConnection(
+									"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+									"password");
+					if(connection1 != null){
+						String SQL_statement = ("UPDATE EVENT SET NOTES = '"+ eNotes +"'WHERE USERNAME='"+ usn +"'AND TITLE='"+ eiName +"'");
+						Statement statement = connection1.createStatement();
+						statement.executeQuery(SQL_statement);
+					}
 						
 					}
 				} catch (SQLException e1) {
@@ -118,11 +180,15 @@ public class EventNotesView extends JFrame {
 				setVisible(false);
 			}
 		});
-		eventNames.setBounds(225,82,52,27);
+		eventNames.setBounds(220,82,100,27);
 		panel.add(eventNames);
+		ieventNames.setBounds(220,49,100,27);
+		panel.add(ieventNames);
+		ieventNamesLabel.setBounds(66,48,153,27);
+		panel.add(ieventNamesLabel);
 		
 		save.setBounds(390,434,113,29);
-				panel.add(save);
+		panel.add(save);
 		notesLabel.setBounds(14,122,95,16);
 		panel.add(notesLabel);
 		cancel.setBounds(517,434,86,29);
@@ -169,7 +235,7 @@ public class EventNotesView extends JFrame {
 				}
 			}
 		});
-		getNotes.setBounds(278,81,153,29);
+		getNotes.setBounds(350,66,153,29);
 		panel.add(getNotes);
 		notes.setSize(500,500);
 		notes.setEditable(true);

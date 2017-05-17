@@ -3,7 +3,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-import admin.RunMVC;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -52,7 +51,7 @@ public class MainCalendar extends JFrame {
 		setLocation(350, 100);
 		pane = this.getContentPane(); //Get content pane
 		pane.setLayout(null); //Apply null layout
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		lblYear = new JLabel ("Year:");
 		cmbYear = new JComboBox();
 		lblMont = new JLabel ("Month:");
@@ -228,38 +227,6 @@ public class MainCalendar extends JFrame {
 		pnlCalendar.add(label);
 		label.setText(getMonth(currentMonth));
 
-
-		JButton addEventButton = new JButton("Logout");
-		//	final JFrame f = new JFrame();
-		addEventButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//f.setVisible(false);
-				//f.dispose();
-				//f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				toggleOff();
-
-				System.out.println("Logged out!");
-				RunMVC mainRunMVC = new RunMVC();
-
-			}
-
-			private void toggleOff() {
-				setVisible(false);
-
-			}
-
-
-
-		});
-
-
-
-		addEventButton.setBounds(10, 55, 89, 23);
-		this.getContentPane().add(addEventButton);
-
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(10, 118, 89, 23);
-		this.getContentPane().add(btnNewButton_1);
 /**
 		JButton btnNewButton_2 = new JButton("New button");
 		btnNewButton_2.setBounds(10, 180, 89, 23);

@@ -2,6 +2,7 @@ package clients.mainPanel;
 
 import clients.share.*;
 import client.historyEvent.*;
+import admin.RunMVC;
 import clients.currentShares.CurrentSharesView;
 import clients.editEvent.EditEventView;
 import clients.eventNotes.EventNotesView;
@@ -22,27 +23,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import admin.RunMVC;
+
 public class MainView extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	//LABELS
 	private JLabel shareLabel = new JLabel("Share Management: ");
-	private JLabel createInvitationLabel = new JLabel("Create Invitation: ");
 	private JLabel notificationsLabel = new JLabel("Notification(s): ");
 	private JLabel myEventsLabel = new  JLabel("My Event(s): ");
 	private JLabel historyEventLabel = new JLabel("Past Event(s): ");
 	private JLabel editEventLabel = new JLabel("Edit Your Event");
 	private JLabel eventNotesLabel = new JLabel("View Your Event Notes");
+	private JLabel openCalendarLabel = new JLabel("View Calendar");
 	//BUTTONS
+	private JButton openCalendar = new JButton("Open Calendar");
 	private JButton shareButton = new JButton("Invite Users");
-	private JButton addUserButton = new JButton("Add");
-	private JButton removeUserButton = new JButton("Remove");
-	private JButton createInvitationsButton = new JButton("Create");
 	private JButton notificationsButton = new JButton("Manage");
 	private JButton myEvents	= new JButton("Events");
 	private JButton historyEvent = new JButton("Event(s):");
 	private JButton editEvent = new JButton("Edit Event");
 	private JButton eventNotes = new JButton("View Notes");
+	private JButton logOut = new JButton("Logout");
 
 	MainView(){
 		JPanel mainView = new JPanel(new GridBagLayout());
@@ -51,13 +53,14 @@ public class MainView extends JFrame{
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(6,6,6,6);//padding
 		
+		
 		//SHARE MANAGEMENT
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 2;
 		mainView.add(shareLabel, c);
 		
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 2;
 		mainView.add(shareButton, c);
 		
 		shareButton.addActionListener(new ActionListener(){
@@ -68,34 +71,24 @@ public class MainView extends JFrame{
 				sView.setVisible(true);
 			}
 		});
-		
-
-
-		
-		 /* 
-		 
-	     * //REMOVE USER
-	 
-		 
+		//Open Calendar
 		c.gridx = 0;
-		c.gridy = 2;
-		Component removeUserLabel = null;
-		mainView.add(removeUserLabel, c);
+		c.gridy = 1;
+		mainView.add(openCalendarLabel, c);
 		
 		c.gridx = 1;
-		c.gridy = 2;
-		mainView.add(removeUserButton, c);
+		c.gridy = 1;
+		mainView.add(openCalendar, c);
 		
-		removeUserButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				ShareView sView = new ShareView();
-				sView.setTitle("Share Management");
-				sView.setVisible(true);
-			}
+		openCalendar.addActionListener(new ActionListener() {
 			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainCalendar cView = new MainCalendar();
+				cView.setTitle("Calendar");
+				
+			}
 		});
-		*/
 		
 		//NOTIFICATIONS
 		c.gridx = 0;
@@ -209,6 +202,31 @@ public class MainView extends JFrame{
 				eventNotes.setTitle("Event Notes");
 				eventNotes.setVisible(true);
 			}
+		});
+		c.gridx = 1;
+		c.gridy = 9;
+		mainView.add(logOut, c);
+		
+		logOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//f.setVisible(false);
+				//f.dispose();
+				//f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				toggleOff();
+
+				System.out.println("Logged out!");
+				RunMVC mainRunMVC = new RunMVC();
+				MainCalendar cView = new MainCalendar();
+				cView.setVisible(false);
+			}
+
+			private void toggleOff() {
+				setVisible(false);
+
+			}
+
+
+
 		});
 		
 		this.add(mainView);

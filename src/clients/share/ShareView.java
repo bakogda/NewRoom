@@ -1,6 +1,7 @@
 package clients.share;
 
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -370,44 +371,89 @@ public class ShareView extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				sm_enterName.setText("");
-				sm_enterName2.setText("");
-				sm_enterName3.setText("");
-				sm_enterName4.setText("");
-				sm_enterName5.setText("");
-				sm_enterName6.setText("");
+				sm_enterName.setText(null);
+				sm_enterName2.setText(null);
+				sm_enterName3.setText(null);
+				sm_enterName4.setText(null);
+				sm_enterName5.setText(null);
+				sm_enterName6.setText(null);
 				try {
 					sm_enterName.setText(getFirstInvitation(usn));
+					if(sm_enterName.getText().equals('"'))
+					{
+						sm_enterName.setEditable(true);
+					}else
+					{
+						sm_enterName.setEditable(false);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				try {
 					sm_enterName2.setText(getSecondInvitation(usn));
+					if(sm_enterName2.getText().equals('"'))
+					{
+						sm_enterName2.setEditable(true);
+					}else
+					{
+						sm_enterName2.setEditable(false);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				try {
 					sm_enterName3.setText(getThirdInvitation(usn));
+					if(sm_enterName3.getText().equals('"'))
+					{
+						sm_enterName3.setEditable(true);
+					
+					}else
+					{
+						sm_enterName.setEditable(false);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				try {
 					sm_enterName4.setText(getFourthInvitation(usn));
+					if(sm_enterName4.getText().equals('"'))
+					{
+						sm_enterName4.setEditable(true);
+					
+					}else
+					{
+						sm_enterName4.setEditable(false);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				try {
 					sm_enterName5.setText(getFithInvitation(usn));
+					if(sm_enterName5.getText().equals('"'))
+					{
+						sm_enterName5.setEditable(true);
+						
+					}else
+					{
+						sm_enterName5.setEditable(false);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				try {
 					sm_enterName6.setText(getSixthInvitation(usn));
+					if(sm_enterName6.getText().equals('"'))
+					{
+						sm_enterName6.setEditable(true);
+					}else
+					{
+						sm_enterName6.setEditable(false);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
+				System.out.println(sm_enterName);
 			}
-	
 		});
 		
 		

@@ -141,10 +141,12 @@ public class CurrentSharesView extends JFrame{
 		         newFrame.setTitle("Detail Screen");
 		         newFrame.setVisible(true);
 		         newFrame.setSize(500, 200);
-	              JLabel desription = new JLabel("Would you like to attend "+ table.getValueAt(table.getSelectedRow(), 1).toString());
+	              JLabel description = new JLabel("Would you like to attend "+ table.getValueAt(table.getSelectedRow(), 1).toString());
+	              description.setHorizontalAlignment(JLabel.CENTER);
 	              JButton accept = new JButton("Accept Invitation");
 	              JButton decline = new JButton("Decline Invitation");
 	              JButton cancel = new JButton("Cancel");
+	              newFrame.setResizable(false);
 	              
 	              accept.addActionListener(new ActionListener()
 	            		  {
@@ -163,7 +165,7 @@ public class CurrentSharesView extends JFrame{
 	           
 	            					while (rs.next())
 	            					{
-	            				if((rs.getString(10)).equals(usn))
+	            				if((rs.getString(10)).equals(usn) && rs.getString(11).equals("YES"))
 	            				{
 	            					
 	            					String SQL_statement = ("UPDATE EVENT SET INV_ONE_CONFIRMATION = 'YES' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
@@ -206,7 +208,6 @@ public class CurrentSharesView extends JFrame{
 	            		  {
 	            			  
 	            		  }
-	            		  target.setBackground(Color.green);
 	            		  newFrame.setVisible(false);
 	            	  }
 	            		  });
@@ -284,13 +285,13 @@ public class CurrentSharesView extends JFrame{
         		  newFrame.dispose();
         	  }
         		  });
-	              decline.setBounds(100, 110, 75, 30);
-	              accept.setBounds(200, 110, 75, 30);
-	              cancel.setBounds(10, 110, 75, 30);
+	              decline.setBounds(235, 110, 145, 30);
+	              accept.setBounds(90, 110, 145, 30);
+	              cancel.setBounds(370, 110, 75, 30);
 	              newFrame.add(cancel);
 	              newFrame.add(decline);
 	              newFrame.add(accept);
-	              newFrame.add(desription);
+	              newFrame.add(description);
 	              
 	              
 		         }

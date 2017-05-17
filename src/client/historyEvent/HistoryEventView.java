@@ -1,10 +1,6 @@
 package client.historyEvent;
 import java.awt.Button;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,15 +8,20 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 import admin.View;
+import clients.currentShares.CurrentSharesView;
 
 public class HistoryEventView extends JFrame{
 	/**
@@ -39,89 +40,103 @@ public class HistoryEventView extends JFrame{
 
 
 	public HistoryEventView() throws SQLException, ClassNotFoundException{
-		JPanel view = new JPanel(new GridBagLayout());
+		JPanel view = new JPanel();
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setSize(550, 550);
-		events.setSize(300,500);
-		events.setEditable(false);
-		try
-		{
-			histEvent(date2, usn);
-		}catch (SQLException e1)
-		{
-			e1.printStackTrace();
-		}
-			
-		/**
-		String title = database.queryDB.getQuery("SELECT TITLE FROM EVENT WHERE DATE<'" + date2 +"'AND USERNAME='" + usn +"'");
-		String st = database.queryDB.getQuery("SELECT STARTTIME FROM EVENT WHERE DATE<'" + date2 +"'AND USERNAME='" + usn +"'");
-		String et = database.queryDB.getQuery("SELECT ENDTIME FROM EVENT WHERE DATE<'" + date2 +"'AND USERNAME='" + usn +"'");
-		String room = database.queryDB.getQuery("SELECT ROOM FROM EVENT WHERE DATE<'" + date2 +"'AND USERNAME='" + usn +"'");
-		String desc = database.queryDB.getQuery("SELECT DESCR FROM EVENT WHERE DATE<'" + date2 +"'AND USERNAME='" + usn +"'");
-		String date = database.queryDB.getQuery("SELECT DATE FROM EVENT WHERE DATE<'" + date2 + "'AND USERNAME='" + usn + "'");	
-		
-		
-		if(database.queryDB.histEvent(date2, usn) == false) {
-			events.setText("Date: " + date
-					+"\n" + 
-					"Title: " + title+ "\n" + 
-					"Start time: " + st + "\n" +
-					"End time: " + et + "\n" +
-					"Room: " + room + "\n" + 
-					"Description: " + desc + "\n"					
-					);
+		this.setSize(800,500);
+		ArrayList<String> columnNames = new ArrayList<String>();
+        ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+        
+		try{
+			Class.forName("org.postgresql.Driver");
+			Connection connection = DriverManager.getConnection(
+							"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+							"password");
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT USERNAME, TITLE AS EVENT_TITLE, DATE, ROOM, STARTTIME AS STARTED_AT, ENDTIME AS FINISHED_AT, DESCR AS DESCRIPTION, INV_ONE AS GUEST_1, INV_TWO AS GUEST_2, INV_THREE AS GUEST_3, INV_FOUR AS GUEST_4, INV_FIVE AS GUEST_5, INV_SIX AS GUEST_6 FROM event WHERE DATE<'" + date2 + "'AND USERNAME='" + usn +"'");
+			ResultSetMetaData rsmd = resultSet.getMetaData(); 
 
-		}
-		else { 
-			events.setText("There are NO previous events to view");
+		int cCount = rsmd.getColumnCount();
+		for (int i = 1; i <= cCount; i++)
+		{
+			columnNames.add(rsmd.getColumnName(i));
 		}
 		
-		**/
-		GridBagConstraints c = new GridBagConstraints();
-		scroll = new JScrollPane(events, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		c.insets = new Insets(5,5,5,5);//padding
-		c.gridx = 0;
-		c.gridy = 0;
-		view.add(scroll, c);
-		c.gridx = 0;
-		c.gridy = 12;
-		c.gridwidth = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		view.add(cancel, c);
-		cancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				toggleOff();
+		while (resultSet.next())
+		{
+			ArrayList<Object> row = new ArrayList<Object>(cCount);
+			
+			for (int i = 1; i <= cCount; i++)
+			{
+				row.add(resultSet.getObject(i));
 			}
-		});
-		this.add(view);
+				data.add(row);
+		}
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+		Vector<String> columnNamesVector = new Vector<String>();
+		Vector<Vector> dataVector = new Vector<Vector>();
+		
+		for (int i = 0; i < data.size(); i++)
+        {
+            ArrayList subArray = data.get(i);
+            Vector subVector = new Vector();
+            for (int j = 0; j < subArray.size(); j++)
+            {
+                subVector.add(subArray.get(j));
+            }
+            dataVector.add(subVector);
+        }
+
+        for (int i = 0; i < columnNames.size(); i++ )
+            columnNamesVector.add(columnNames.get(i));
+
+        //  Create table with database data    
+        JTable table = new JTable(dataVector,columnNamesVector)
+        {
+        	/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			public Class<?> getColumnClass1(int column) {
+                return getValueAt(0, column).getClass();
+            }
+        	
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+            public Class getColumnClass(int column)
+            {
+                for (int row = 0; row < getRowCount(); row++)
+                {
+                    Object o = getValueAt(row, column);
+
+                    if (o != null)
+                    {
+                        return o.getClass();
+                    }
+                }
+
+                return Object.class;
+            }
+        };
+
+        JScrollPane scrollPane = new JScrollPane( table );
+        getContentPane().add( scrollPane );
+
 	}
 
-	public static void histEvent(String date2, String usn) throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
-		Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery("SELECT * FROM event WHERE DATE<'" + date2 + "'AND USERNAME='" + usn +"'");
-		ResultSetMetaData rsmd = resultSet.getMetaData(); 
+    public static void main(String[] args)
+    {
+        CurrentSharesView frame = new CurrentSharesView();
+        frame.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        frame.pack();
+        frame.setVisible(true);
+    }
 
-		//loop through number of columns
-		int colCount = rsmd.getColumnCount();
-		System.out.println(colCount);
-		
-		for(int i = 1; i<= colCount; i++) events.append( rsmd.getColumnName(i)+" | ");
-		while(resultSet.next()) {
-			events.append(newline);
-			for(int x = 1; x <= colCount; x++) events.append(resultSet.getString(x) + " | ");
-		}
-		
-		if (statement != null) statement.close();
-		if (connection != null) connection.close();
 	}
 	
-	public void toggleOff(){
-		events.setText(null);
-		this.setVisible(false);
-	}
-}
