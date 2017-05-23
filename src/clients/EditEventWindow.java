@@ -1,6 +1,5 @@
 package clients;
 
-import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -42,6 +41,7 @@ public class EditEventWindow extends JFrame {
 		JButton b = new JButton("Date");
 		final JFrame f = new JFrame();
 		b.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				text.setText(new DatePicker(f).setPickedDate());
 			}

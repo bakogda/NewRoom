@@ -20,8 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import database.dBV;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 
 public class ViewUsersView extends JFrame{
 
@@ -39,7 +39,7 @@ public class ViewUsersView extends JFrame{
 	
 	public ViewUsersView(){
 		JPanel resetView = new JPanel(new GridBagLayout());
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.setSize(450, 400);
 		users.setEditable(false);
 		try {
@@ -49,7 +49,7 @@ public class ViewUsersView extends JFrame{
 			e1.printStackTrace();
 		}
 		GridBagConstraints c = new GridBagConstraints();
-		scroll = new JScrollPane(users, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll = new JScrollPane(users, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 //		vertical.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		c.insets = new Insets(5,5,5,5);//padding
 	

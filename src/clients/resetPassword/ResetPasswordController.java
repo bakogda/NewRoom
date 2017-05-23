@@ -13,6 +13,7 @@ public class ResetPasswordController implements ActionListener{
 		System.out.println("reset password controller");
 	}
 	
+	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e){
 		String un = rsView.getUsername();
 		String pw = rsView.getPass();

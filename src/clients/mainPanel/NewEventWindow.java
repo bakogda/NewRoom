@@ -1,20 +1,21 @@
 package clients.mainPanel;
-import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.*;
 
-import org.postgresql.PGStatement;
-
 import admin.View;
 
 class NewEventWindow extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static void main(String[] args) {
 		NewEventWindow frameTabel = new NewEventWindow();
 		
@@ -28,10 +29,10 @@ class NewEventWindow extends JFrame {
 	JPanel panel = new JPanel();
 	JTextField eventTitle = new JTextField(20);
 	JTextArea eventDesc = new JTextArea();
-	JTextArea eventNotes = new JTextArea();
+	//JTextArea eventNotes = new JTextArea();
 	JLabel eventTitleLabel = new JLabel("Event Title:");
 	JLabel eventDescLabel = new JLabel("Description:");
-	JLabel eventNotesLabel = new JLabel("Event Notes:");
+	//JLabel eventNotesLabel = new JLabel("Event Notes:");
 	JLabel roomListLabel = new JLabel("Room:");
 	JLabel timeListLabel1 = new JLabel("From:");
 	JComboBox roomList = new JComboBox(rooms);
@@ -40,7 +41,7 @@ class NewEventWindow extends JFrame {
 	JLabel timeListLabel2 = new JLabel("Until:");
 	String usn = View.getLogin();
 
-	NewEventWindow(){
+	NewEventWindow() {
 		super("Create New Event");
 		setSize(420,570);
 		setLocation(750,250);
@@ -54,34 +55,47 @@ class NewEventWindow extends JFrame {
 		
 		eventDesc.setLineWrap(true);
 		eventDesc.setWrapStyleWord(true);
-		eventNotes.setLineWrap(true);
-		eventNotes.setWrapStyleWord(true);
+	//	eventNotes.setLineWrap(true);
+	//	eventNotes.setWrapStyleWord(true);
 		eventTitle.setBounds(50,45,300,20);
 		eventDesc.setBounds(50,255,300,100);
-		eventNotes.setBounds(50, 400, 300, 100);
+	//	eventNotes.setBounds(50, 400, 300, 100);
+		
+
 		createEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String username = usn;	
+			
+
+			@Override
+			public void actionPerformed(ActionEvent e) {	
 				String title = eventTitle.getText();
 				String date = label1.getText();
 				String room = (String)roomList.getSelectedItem();
 				String st = (String)timeList1.getSelectedItem();
 				String et = (String)timeList2.getSelectedItem();
+				//String notes = eventNotes.getText();
 				String desc = eventDesc.getText();	
-				String notes = eventNotes.getText();
+				String userid = null;
+				try {
+					userid = database.queryDB.getId(usn);
+					System.out.println(userid);
+				} catch (ClassNotFoundException | SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				
-		
+						
 				try {
 					Class.forName("org.postgresql.Driver");
 					Connection connection = DriverManager.getConnection(
 									"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
 									"password");
-					Statement statement = connection.createStatement();
-					ResultSet resultSet = statement.executeQuery("SELECT * FROM event WHERE DATE='"+ date +"'AND STARTTIME BETWEEN '"+ st +"'AND '"+ et +"'");
 					
+					Statement statement1 = connection.createStatement();
+					ResultSet resultSet1 =statement1.executeQuery("SELECT * FROM event WHERE DATE='"+ date +"'AND STARTTIME BETWEEN '"+ st +"'AND '"+ et +"'");
+	
 					int result = st.compareTo(et);
 					
-					if(resultSet.next())
+					if(resultSet1.next())
 					{
 						JOptionPane.showMessageDialog(null, new Object[] {
 							    "Event already exists at this time in the '"+ room +"' Please Choose different Room or Time"			    
@@ -94,7 +108,8 @@ class NewEventWindow extends JFrame {
 						}
 						}else
 					{
-					database.queryDB.addEvent(username, title, date, room, st, et, desc, notes);
+					database.queryDB.addEvent(userid, title, date, room, st, et, desc);
+					
 					}
 				} catch (SQLException e1) {
 					System.out.println("Error!");
@@ -108,11 +123,19 @@ class NewEventWindow extends JFrame {
 				setVisible(false);
 			}
 		});
+		
+		cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				toggleOff();
+			}
+		});
+		
 		createEvent.setBounds(278,510,117,30);
 		cancel.setBounds(10, 510, 75, 30);
 		eventTitleLabel.setBounds(50,20,300,20);
 		eventDescLabel.setBounds(50,185,300,100);
-		eventNotesLabel.setBounds(50, 335, 300, 100);
+		//eventNotesLabel.setBounds(50, 335, 300, 100);
 		label.setBounds(50,70,300,20);
 		//text.setBounds(50,95,300,20);
 		//text.setText(MainCalendar.dom);
@@ -131,8 +154,8 @@ class NewEventWindow extends JFrame {
 		panel.add(eventDesc);
 		panel.add(eventTitleLabel);
 		panel.add(eventDescLabel);
-		panel.add(eventNotes);
-		panel.add(eventNotesLabel);
+		//panel.add(eventNotes);
+		//panel.add(eventNotesLabel);
 		panel.add(label);
 		//panel.add(text);
 		panel.add(roomList);
@@ -144,9 +167,12 @@ class NewEventWindow extends JFrame {
 		panel.add(label1);
 
 		getContentPane().add(panel);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setVisible(true);
 
+	}
+	private void toggleOff() {
+		this.setVisible(false);
 	}
 
 }

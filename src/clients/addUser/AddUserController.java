@@ -12,6 +12,7 @@ public class AddUserController implements ActionListener {
 		System.out.println("AddUser controller:");
 	}
 	
+	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e){
 		String usn = auView.getUsername();
 		String pwd = auView.getPassword();

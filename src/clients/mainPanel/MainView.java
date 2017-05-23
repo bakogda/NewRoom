@@ -10,7 +10,6 @@ import clients.mainPanel.ViewEvents;
 //import clients.notifications.*;
 
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,8 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import admin.RunMVC;
 
 public class MainView extends JFrame{
 
@@ -132,9 +129,6 @@ public class MainView extends JFrame{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			
-				clients.mainPanel.Main.runMainView();
-				
 			}
 		});
 		c.gridx = 0;
@@ -208,6 +202,7 @@ public class MainView extends JFrame{
 		mainView.add(logOut, c);
 		
 		logOut.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//f.setVisible(false);
 				//f.dispose();
@@ -224,9 +219,6 @@ public class MainView extends JFrame{
 				setVisible(false);
 
 			}
-
-
-
 		});
 		
 		this.add(mainView);

@@ -1,5 +1,4 @@
 package clients;
-import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
@@ -52,19 +51,25 @@ public class NewEventWindow extends JFrame {
 		eventDesc.setBounds(50,255,300,100);
 		eventNotes.setBounds(50, 400, 300, 100);
 		createEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String username = usn;	
+			@Override
+			public void actionPerformed(ActionEvent e) {	
 				String title = eventTitle.getText();
 				String date = label1.getText();
 				String room = (String)roomList.getSelectedItem();
 				String st = (String)timeList1.getSelectedItem();
 				String et = (String)timeList2.getSelectedItem();
 				String desc = eventDesc.getText();	
-				String notes = eventNotes.getText();
-
+				String userid = null;
+				try {
+					userid = database.queryDB.getId(usn);
+					System.out.println(userid);
+				} catch (ClassNotFoundException | SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 
 				try {
-					database.queryDB.addEvent(username, title, date, room, st, et, desc, notes);
+					database.queryDB.addEvent(userid, title, date, room, st, et, desc);
 					database.queryDB.query("SELECT * FROM event");
 				} catch (SQLException e1) {
 					System.out.println("Error!");
@@ -114,7 +119,7 @@ public class NewEventWindow extends JFrame {
 		panel.add(label1);
 
 		getContentPane().add(panel);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setVisible(true);
 
 	}

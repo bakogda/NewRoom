@@ -1,6 +1,5 @@
 package clients.mainPanel;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 
 
@@ -51,14 +50,15 @@ public class MainCalendar extends JFrame {
 		setLocation(350, 100);
 		pane = this.getContentPane(); //Get content pane
 		pane.setLayout(null); //Apply null layout
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		lblYear = new JLabel ("Year:");
 		cmbYear = new JComboBox();
 		lblMont = new JLabel ("Month:");
 		cmbMont = new JComboBox();
 		btnPrev = new JButton ("<<Previous");
 		btnNext = new JButton ("Next>>");
-		mtblCalendar = new DefaultTableModel(){public boolean isCellEditable(int rowIndex, int mColIndex){return false;}};
+		mtblCalendar = new DefaultTableModel(){@Override
+		public boolean isCellEditable(int rowIndex, int mColIndex){return false;}};
 		tblCalendar = new JTable(mtblCalendar);
 		stblCalendar = new JScrollPane(tblCalendar);
 		
@@ -192,9 +192,9 @@ public class MainCalendar extends JFrame {
 
 		//Get real month/year
 		GregorianCalendar cal = new GregorianCalendar(); //Create calendar
-		realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); //Get day
-		realMonth = cal.get(GregorianCalendar.MONTH); //Get month
-		realYear = cal.get(GregorianCalendar.YEAR); //Get year
+		realDay = cal.get(Calendar.DAY_OF_MONTH); //Get day
+		realMonth = cal.get(Calendar.MONTH); //Get month
+		realYear = cal.get(Calendar.YEAR); //Get year
 		currentMonth = realMonth; //Match month and year
 		currentYear = realYear;
 
@@ -302,8 +302,8 @@ public class MainCalendar extends JFrame {
 
 		//Get first day of month and number of days
 		GregorianCalendar cal = new GregorianCalendar(year, month, 1);
-		nod = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-		som = cal.get(GregorianCalendar.DAY_OF_WEEK);
+		nod = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		som = cal.get(Calendar.DAY_OF_WEEK);
 
 		//Draw calendar
 		for (int i=1; i<=nod; i++){
@@ -319,6 +319,7 @@ public class MainCalendar extends JFrame {
 	static class tblCalendarRenderer extends DefaultTableCellRenderer{
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column){
 			super.getTableCellRendererComponent(table, value, selected, focused, row, column);
 
@@ -360,6 +361,7 @@ public class MainCalendar extends JFrame {
 	}
 
 	static class btnPrev_Action implements ActionListener{
+		@Override
 		public void actionPerformed (ActionEvent e){
 			if (currentMonth == 0){ //Back one year
 				currentMonth = 11;
@@ -374,6 +376,7 @@ public class MainCalendar extends JFrame {
 		}
 	}
 	static class btnNext_Action implements ActionListener{
+		@Override
 		public void actionPerformed (ActionEvent e){
 			if (currentMonth == 11){ //Foward one year
 				currentMonth = 0;
@@ -388,6 +391,7 @@ public class MainCalendar extends JFrame {
 		}
 	}
 	static class cmbYear_Action implements ActionListener{
+		@Override
 		public void actionPerformed (ActionEvent e){
 			if (cmbYear.getSelectedItem() != null){
 				String b = cmbYear.getSelectedItem().toString();
@@ -397,6 +401,7 @@ public class MainCalendar extends JFrame {
 		}
 	}
 	static class cmbMont_Action implements ActionListener{
+		@Override
 		public void actionPerformed (ActionEvent e)
 		{
 			if(cmbMont.getSelectedItem() != null)

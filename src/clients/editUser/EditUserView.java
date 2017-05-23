@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 
 public class EditUserView extends JFrame{
@@ -54,7 +55,7 @@ public class EditUserView extends JFrame{
 	
 	public EditUserView(){
 		JPanel auView = new JPanel(new GridBagLayout());
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.setSize(400, 360);
 		
 		/*

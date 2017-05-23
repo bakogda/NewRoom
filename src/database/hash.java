@@ -1,9 +1,5 @@
 package database;
 
-/*
- * CREDIT: fitorec @ http://stackoverflow.com/a/25251120/3155620
- */
-
 public class hash {
 	public static String getHash(String plainText, String hashType) {
 		try {

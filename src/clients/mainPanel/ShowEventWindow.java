@@ -1,5 +1,4 @@
 package clients.mainPanel;
-import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
@@ -60,6 +59,7 @@ class ShowEventWindow extends JFrame {
 		eventTitle.setBounds(50,45,300,20);
 		eventDesc.setBounds(50,255,300,100);
 		OK.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {	
 				String username = usn;
 				String title = eventTitle.getText();
@@ -69,9 +69,17 @@ class ShowEventWindow extends JFrame {
 				String et = (String)timeList2.getSelectedItem();
 				String desc = eventDesc.getText();	
 				String notes = eventNotes.getText();
+				String userid = null;
+				try {
+					userid = database.queryDB.getId(usn);
+					System.out.println(userid);
+				} catch (ClassNotFoundException | SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 
 				try {
-					database.queryDB.addEvent(username, title, date, room, st, et, desc, notes);
+					database.queryDB.addEvent(userid, title, date, room, st, et, desc);
 					database.queryDB.query("SELECT * FROM event");
 				} catch (SQLException e1) {
 					System.out.println("Error!");
@@ -122,7 +130,7 @@ class ShowEventWindow extends JFrame {
 		panel.add(label1);
 
 		getContentPane().add(panel);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	//	setDefaultCloseOperation(JButton.ABORT);
 		setVisible(true);
 

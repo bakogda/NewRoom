@@ -1,11 +1,7 @@
 package admin;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import clients.adminPanel.AdminView;
-import clients.mainPanel.MainCalendar;
-import clients.share.ShareView;
 
 class Controller implements java.awt.event.ActionListener {
 
@@ -18,10 +14,11 @@ class Controller implements java.awt.event.ActionListener {
 	} 
 
 	//when login button is pushed
+	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e){
 		System.out.println("Controller: acting on Model");
 
-		String usn = view.getLogin();
+		String usn = View.getLogin();
 		String pwd = view.getPass();
 		String type = "1";
 		

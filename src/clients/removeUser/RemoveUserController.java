@@ -13,6 +13,7 @@ public class RemoveUserController implements ActionListener {
 	}
 	
 	
+	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e){
 		String un = rView.getUsername();
 		

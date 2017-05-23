@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 public class ResetPasswordView extends JFrame{
 
@@ -32,7 +33,7 @@ public class ResetPasswordView extends JFrame{
 	
 	public ResetPasswordView(){
 		JPanel resetView = new JPanel(new GridBagLayout());
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.setSize(450, 300);
 		
 		GridBagConstraints c = new GridBagConstraints();

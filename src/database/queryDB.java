@@ -114,8 +114,8 @@ public class queryDB {
 
 	}
 
-	public static void addEvent(String username, String title, String date, String room, String st, String et, String desc, String notes) throws ClassNotFoundException, SQLException{
-		String addEventSQL = "insert into " + database.JDBConnect.tbl_event + "(USERNAME, TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR, NOTES) values ('" + username + "','" + title + "','" + date + "','" + room + "','" + st +"','" + et + "','" + desc + "','" + notes +"')";
+	public static void addEvent(String userid, String title, String date, String room, String st, String et, String desc) throws ClassNotFoundException, SQLException{
+		String addEventSQL = "insert into " + database.JDBConnect.tbl_event + "(USER_ID, TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR) values ('" + userid + "','" + title + "','" + date + "','" + room + "','" + st +"','" + et + "','" + desc + "')";
 
 		Class.forName("org.postgresql.Driver");
 		Connection conn = DriverManager.getConnection(
@@ -123,6 +123,23 @@ public class queryDB {
 						"password");
 		conn.createStatement().execute(addEventSQL);
 		System.out.println("Event with title " + title + " added!");
+	}
+	
+	public static String getId(String usn) throws ClassNotFoundException, SQLException
+	{
+		Class.forName("org.postgresql.Driver");
+		Connection connection = DriverManager.getConnection(
+						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+						"password");
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery("SELECT USER_ID FROM userdet WHERE USERNAME='"+ usn +"'");
+		while(resultSet.next())
+		{
+			String userid = resultSet.getString(1);
+			return userid;
+		}
+		return null;
+
 	}
 
 

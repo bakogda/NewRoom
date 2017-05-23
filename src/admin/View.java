@@ -1,13 +1,10 @@
 package admin;
 import java.awt.Button;
-import java.awt.Component;
 import java.awt.Panel;
 import java.awt.Frame;
 import java.awt.TextField;
-import java.awt.Label;
 import java.awt.event.WindowEvent;	//for CloseListener()
 import java.awt.event.WindowAdapter;	//for CloseListener()
-import java.lang.Integer;		//int from Model is passed as an Integer
 import java.util.Observable;		//for update();
 import java.awt.event.ActionListener;	//for addController()
 
@@ -18,7 +15,7 @@ import javax.swing.JPasswordField;
 	{
 		Frame frame 	= new Frame("Login to the calendar!");
 		private static TextField login = new TextField(15);
-		private JPasswordField pwd = new JPasswordField(15);
+		private static JPasswordField pwd = new JPasswordField(15);
 		private Button button = new Button("Login");
 		JLabel welcome = new JLabel("Welcome Login to start using the service");
 		JLabel loginLabel = new JLabel("Enter your username: ");
@@ -32,7 +29,7 @@ import javax.swing.JPasswordField;
 			loginLabel.setBounds(6, 118, 137, 16);
 			
 			panel.add(loginLabel);
-			passLabel.setBounds(6, 170, 128, 16);
+			passLabel.setBounds(6, 170, 153, 16);
 			panel.add(passLabel);
 			welcome.setBounds(59, 65, 256, 16);
 			panel.add(welcome);
@@ -51,6 +48,7 @@ import javax.swing.JPasswordField;
 			
 		}
 		
+		@Override
 		public void update(Observable obs, Object obj)
 		{
 			
@@ -90,6 +88,7 @@ import javax.swing.JPasswordField;
 		
 		public static class CloseListener extends WindowAdapter
 		{
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				e.getWindow().setVisible(false);

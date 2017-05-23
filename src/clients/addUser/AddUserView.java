@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import clients.mainPanel.DatePicker;
 
@@ -56,13 +57,14 @@ public class AddUserView extends JFrame{
 	
 	public AddUserView(){
 		JPanel auView = new JPanel(new GridBagLayout());
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.setSize(500, 400);
 		JLabel label = new JLabel("Select Date:");
 		JTextField text = new JTextField(20);
 		JButton b = new JButton("Date");
 		JFrame f = new JFrame();
 		b.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				text.setText(new DatePicker(f).setPickedDate());
 			}

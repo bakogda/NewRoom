@@ -1,10 +1,6 @@
 package clients.currentShares;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,14 +17,11 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import admin.View;
 
 public class CurrentSharesView extends JFrame{
@@ -39,17 +32,26 @@ public class CurrentSharesView extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//create all objects on which will be on the panel
 	String usn = View.getLogin();
+	String userid = null;
 	
 	public CurrentSharesView(){
 		super("Invitations");
-		JPanel shareView = new JPanel();
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		this.setSize(800,500);
+		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		this.setSize(1000,800);
 		ArrayList<String> columnNames = new ArrayList<String>();
         ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
         
+        try {
+			userid = database.queryDB.getId(usn);
+			System.out.println(userid);
+		} catch (ClassNotFoundException | SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+       
+        
 		try{
-		String SQL_statement = "SELECT USERNAME AS INVITE_BY, TITLE, DATE, ROOM, STARTTIME as Time_From, ENDTIME AS Finish_Time, DESCR AS DESCRIPTION FROM " + database.JDBConnect.tbl_event + " WHERE INV_ONE='"+ usn +"'OR INV_TWO='"+ usn +"'OR INV_THREE='"+ usn +"'OR INV_FOUR='"+ usn +"'OR INV_FIVE='"+ usn +"'OR INV_SIX='"+ usn +"'";
+		String SQL_statement = "SELECT FIRSTNAME AS FIRST_NAME, LASTNAME AS LAST_NAME, TITLE, DATE, ROOM, TO_CHAR(STARTTIME, 'HH24:MI') , TO_CHAR(ENDTIME, 'HH24:MI'), ATTENDING FROM EVENT,INVITE,USERDET WHERE USERNAME_INVITED ='"+usn+"' AND EVENT_ID=E_ID AND EVENT.USER_ID=USERDET.USER_ID";
 		System.out.println(SQL_statement);
 		Connection connection = DriverManager.getConnection(
 				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
@@ -109,7 +111,8 @@ public class CurrentSharesView extends JFrame{
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            public Class getColumnClass(int column)
+            @Override
+			public Class getColumnClass(int column)
             {
                 for (int row = 0; row < getRowCount(); row++)
                 {
@@ -132,20 +135,24 @@ public class CurrentSharesView extends JFrame{
         
  
 	table.addMouseListener(new MouseAdapter() {
-		   public void mouseClicked(MouseEvent e) {
+		   @Override
+		public void mouseClicked(MouseEvent e) {
 		      if (e.getClickCount() == 2) {
 		         JTable target = (JTable)e.getSource();
-		         int row = target.getSelectedRow();
-		         int column = target.getSelectedColumn();
 		         JFrame newFrame = new JFrame();
 		         newFrame.setTitle("Detail Screen");
 		         newFrame.setVisible(true);
-		         newFrame.setSize(500, 200);
-	              JLabel description = new JLabel("Would you like to attend "+ table.getValueAt(table.getSelectedRow(), 1).toString());
-	              description.setHorizontalAlignment(JLabel.CENTER);
+		         newFrame.setSize(700, 300);
+	              JLabel description = new JLabel("Would you like to attend "+ table.getValueAt(table.getSelectedRow(), 2).toString()+ "?");
+	              description.setHorizontalAlignment(SwingConstants.CENTER);
 	              JButton accept = new JButton("Accept Invitation");
 	              JButton decline = new JButton("Decline Invitation");
 	              JButton cancel = new JButton("Cancel");
+	      		JLabel reasonLabel = new JLabel("Reason: ");
+	    		JTextArea reason = new JTextArea();
+	    		reason.setSize(300, 300);
+	    		reason.setEditable(true);
+	    		reason.setLineWrap(true);
 	              newFrame.setResizable(false);
 	              
 	              accept.addActionListener(new ActionListener()
@@ -153,118 +160,92 @@ public class CurrentSharesView extends JFrame{
 	            	  @Override
 	            	  public void actionPerformed(ActionEvent e)
 	            	  {
+	            		  String eventID = null;
 	            		  try{	
 	            			  Connection connection = DriverManager.getConnection(
 	            						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
 	            						"password");
 	            			  
-	            					String SQL_statement1 = ("SELECT * FROM EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
+	            					String SQL_statement1 = ("SELECT TITLE,E_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
 	            					Statement statement1 = connection.createStatement();
 	            					ResultSet rs = statement1.executeQuery(SQL_statement1);
 	            					System.out.println(SQL_statement1);
 	           
 	            					while (rs.next())
 	            					{
-	            				if((rs.getString(10)).equals(usn) && rs.getString(11).equals("YES"))
-	            				{
-	            					
-	            					String SQL_statement = ("UPDATE EVENT SET INV_ONE_CONFIRMATION = 'YES' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-	            					Statement statement = connection.createStatement();
-	            					statement.executeUpdate(SQL_statement);
-	            					System.out.println(SQL_statement);
-	            				}else if((rs.getString(12)).equals(usn))
-	            			  	{
-	            					String SQL_statement2 = ("UPDATE EVENT SET INV_TWO_CONFRIMATION = 'YES' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-	            					Statement statement2 = connection.createStatement();
-	            					statement2.executeUpdate(SQL_statement2);
-	            					System.out.println(SQL_statement2);
-	            			  	}else if((rs.getString(14)).equals(usn))
-	            			  	{
-	            			  		String SQL_statement3 = ("UPDATE EVENT SET INV_THREE_CONFIRMATION = 'YES' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-	            					Statement statement3 = connection.createStatement();
-	            					statement3.executeUpdate(SQL_statement3);
-	            			  	}else if((rs.getString(16)).equals(usn))
-	            			  	{
-	            			  		String SQL_statement4 = ("UPDATE EVENT SET INV_FOUR_CONFIRMATION = 'YES' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-	            					Statement statement4 = connection.createStatement();
-	            					statement4.executeUpdate(SQL_statement4);
-	            			  	}else if((rs.getString(18)).equals(usn))
-	            			  	{
-	            			  		String SQL_statement5 = ("UPDATE EVENT SET INV_FIVE_CONFIRMATION = 'YES' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-	            					Statement statement5 = connection.createStatement();
-	            					statement5.executeUpdate(SQL_statement5);
-	            			  	}else if((rs.getString(18)).equals(usn))
-	            			  	{
-	            			  		String SQL_statement6 = ("UPDATE EVENT SET INV_SIX_CONFIRMATION = 'YES' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-	            					Statement statement6 = connection.createStatement();
-	            					statement6.executeUpdate(SQL_statement6);
-	            			  	}
+	        							eventID = rs.getString("E_ID");
 	            					}
-	            			
+	        
 	            		  } catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}finally
+	    					// TODO Auto-generated catch block
+	    					e1.printStackTrace();
+	    				}finally
 	            		  {
 	            			  
 	            		  }
+	            		  try
+	            		  {
+	            			  Connection connection = DriverManager.getConnection(
+	          						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+	          						"password");
+	          			  
+	          					String SQL_statement12 = ("UPDATE INVITE SET ATTENDING='Yes' WHERE EVENT_ID='"+ eventID +"' and USERNAME_INVITED='"+ usn +"'");
+	          					System.out.println(SQL_statement12);
+	          					Statement statement12 = connection.createStatement();
+	          					int rs = statement12.executeUpdate(SQL_statement12);
+	            		  } catch (SQLException e1) {
+	    					// TODO Auto-generated catch block
+	    					e1.printStackTrace();
+	    				}finally
+	            		  {
+	            			  
+	            		  }
+	            		  target.setBackground(Color.red);
 	            		  newFrame.setVisible(false);
 	            	  }
 	            		  });
+	      
+	            	  
 	              
 	              decline.addActionListener(new ActionListener()
         		  {
         	  @Override
         	  public void actionPerformed(ActionEvent e)
         	  {
+        		  String eventID = null;
+        		  String reasonFor = reason.getText();
         		  try{	
         			  Connection connection = DriverManager.getConnection(
         						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
         						"password");
         			  
-        					String SQL_statement1 = ("SELECT * FROM EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
+        					String SQL_statement1 = ("SELECT TITLE,E_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
         					Statement statement1 = connection.createStatement();
         					ResultSet rs = statement1.executeQuery(SQL_statement1);
         					System.out.println(SQL_statement1);
        
         					while (rs.next())
         					{
-        				if((rs.getString(10)).equals(usn) )
-        				{
-        					
-        					String SQL_statement = ("UPDATE EVENT SET INV_ONE_CONFIRMATION = 'NO' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-        					Statement statement = connection.createStatement();
-        					statement.executeUpdate(SQL_statement);
-        					System.out.println(SQL_statement);
-        				}else if((rs.getString(12)).equals(usn))
-        			  	{
-        					String SQL_statement2 = ("UPDATE EVENT SET INV_TWO_CONFRIMATION = 'NO' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-        					Statement statement2 = connection.createStatement();
-        					statement2.executeUpdate(SQL_statement2);
-        					System.out.println(SQL_statement2);
-        			  	}else if((rs.getString(14)).equals(usn))
-        			  	{
-        			  		String SQL_statement3 = ("UPDATE EVENT SET INV_THREE_CONFIRMATION = 'NO' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-        					Statement statement3 = connection.createStatement();
-        					statement3.executeUpdate(SQL_statement3);
-        			  	}else if((rs.getString(16)).equals(usn))
-        			  	{
-        			  		String SQL_statement4 = ("UPDATE EVENT SET INV_FOUR_CONFIRMATION = 'NO' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-        					Statement statement4 = connection.createStatement();
-        					statement4.executeUpdate(SQL_statement4);
-        			  	}else if((rs.getString(18)).equals(usn))
-        			  	{
-        			  		String SQL_statement5 = ("UPDATE EVENT SET INV_FIVE_CONFIRMATION = 'NO' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-        					Statement statement5 = connection.createStatement();
-        					statement5.executeUpdate(SQL_statement5);
-        			  	}else if((rs.getString(18)).equals(usn))
-        			  	{
-        			  		String SQL_statement6 = ("UPDATE EVENT SET INV_SIX_CONFIRMATION = 'NO' WHERE INV_ONE='"+ usn +"'AND TITLE='"+ table.getValueAt(table.getSelectedRow(), 1).toString() +"'");
-        					Statement statement6 = connection.createStatement();
-        					statement6.executeUpdate(SQL_statement6);
-        			  	}
+    							eventID = rs.getString("E_ID");
         					}
-        			
+    
+        		  } catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}finally
+        		  {
+        			  
+        		  }
+        		  try
+        		  {
+        			  Connection connection = DriverManager.getConnection(
+      						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
+      						"password");
+      			  
+      					String SQL_statement12 = ("UPDATE INVITE SET ATTENDING='No',REASON = '"+ reasonFor +"' WHERE EVENT_ID='"+ eventID +"' and USERNAME_INVITED='"+ usn +"'");
+      					System.out.println(SQL_statement12);
+      					Statement statement12 = connection.createStatement();
+      					int rs = statement12.executeUpdate(SQL_statement12);
         		  } catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -285,9 +266,13 @@ public class CurrentSharesView extends JFrame{
         		  newFrame.dispose();
         	  }
         		  });
-	              decline.setBounds(235, 110, 145, 30);
-	              accept.setBounds(90, 110, 145, 30);
-	              cancel.setBounds(370, 110, 75, 30);
+	              decline.setBounds(315, 170, 145, 30);
+	              accept.setBounds(170, 170, 145, 30);
+	              cancel.setBounds(470, 170, 75, 30);
+	              reason.setBounds(150, 210, 400, 50);
+	              reasonLabel.setBounds(70, 205, 80, 30);
+	              newFrame.add(reason);
+	              newFrame.add(reasonLabel);
 	              newFrame.add(cancel);
 	              newFrame.add(decline);
 	              newFrame.add(accept);

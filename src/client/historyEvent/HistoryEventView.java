@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
 import admin.View;
 import clients.currentShares.CurrentSharesView;
@@ -34,17 +33,27 @@ public class HistoryEventView extends JFrame{
 	private Button cancel = new Button("Cancel");
 	final static String newline = "\n";
 	String usn = View.getLogin();
+	String userid = null;
 	Calendar cal = Calendar.getInstance();
 	SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 	String date2 = format1.format(cal.getTime());
 
 
+
 	public HistoryEventView() throws SQLException, ClassNotFoundException{
 		JPanel view = new JPanel();
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.setSize(800,500);
 		ArrayList<String> columnNames = new ArrayList<String>();
         ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+        
+        try {
+			userid = database.queryDB.getId(usn);
+			System.out.println(userid);
+		} catch (ClassNotFoundException | SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
         
 		try{
 			Class.forName("org.postgresql.Driver");
@@ -52,7 +61,7 @@ public class HistoryEventView extends JFrame{
 							"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
 							"password");
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT USERNAME, TITLE AS EVENT_TITLE, DATE, ROOM, STARTTIME AS STARTED_AT, ENDTIME AS FINISHED_AT, DESCR AS DESCRIPTION, INV_ONE AS GUEST_1, INV_TWO AS GUEST_2, INV_THREE AS GUEST_3, INV_FOUR AS GUEST_4, INV_FIVE AS GUEST_5, INV_SIX AS GUEST_6 FROM event WHERE DATE<'" + date2 + "'AND USERNAME='" + usn +"'");
+			ResultSet resultSet = statement.executeQuery("SELECT USER_ID, TITLE AS EVENT_TITLE, DATE, ROOM, STARTTIME AS STARTED_AT, ENDTIME AS FINISHED_AT, DESCR AS DESCRIPTION FROM EVENT WHERE DATE<'" + date2 + "'AND USER_ID='" + userid +"'");
 			ResultSetMetaData rsmd = resultSet.getMetaData(); 
 
 		int cCount = rsmd.getColumnCount();
@@ -109,7 +118,8 @@ public class HistoryEventView extends JFrame{
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            public Class getColumnClass(int column)
+            @Override
+			public Class getColumnClass(int column)
             {
                 for (int row = 0; row < getRowCount(); row++)
                 {

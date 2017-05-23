@@ -1,9 +1,6 @@
 package clients.removeEvent;
 
 import java.awt.Button;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -18,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import clients.mainPanel.MainCalendar;
 
@@ -49,8 +46,9 @@ public class RemoveEventView extends JFrame{
 
 	
 		b.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
-				String means = (String)new clients.mainPanel.DatePicker(f).setPickedDate();
+				String means = new clients.mainPanel.DatePicker(f).setPickedDate();
 				try {
 					getRecords(means);
 				} catch (SQLException e) {
@@ -89,7 +87,7 @@ public class RemoveEventView extends JFrame{
 		removeEvent.add(detailsArea);
 		
 		getContentPane().add(removeEvent);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		setVisible(true);
 
 	}

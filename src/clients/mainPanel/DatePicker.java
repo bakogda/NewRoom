@@ -26,6 +26,7 @@ public class DatePicker {
 			button[x].setBackground(Color.white);
 			if (x > 6)
 				button[x].addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent ae) {
 						day = button[selection].getActionCommand();
 						d.dispose();
@@ -40,6 +41,7 @@ public class DatePicker {
 		JPanel p2 = new JPanel(new GridLayout(1, 3));
 		JButton previous = new JButton("<< Previous");
 		previous.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				month--;
 				displayDate();
@@ -49,6 +51,7 @@ public class DatePicker {
 		p2.add(l);
 		JButton next = new JButton("Next >>");
 		next.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				month++;
 				displayDate();

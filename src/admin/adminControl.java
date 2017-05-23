@@ -1,35 +1,14 @@
 package admin;
 
 import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.Insets;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-
-
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
-
-import database.JDBConnect;
-import database.queryDB;
 
 public class adminControl extends JFrame
 {
@@ -62,6 +41,7 @@ public class adminControl extends JFrame
 	{
 		EventQueue.invokeLater(new Runnable()
 		{
+			@Override
 			public void run() 
 			{
 				try{
