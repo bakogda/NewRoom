@@ -21,6 +21,7 @@ import javax.swing.WindowConstants;
 
 import admin.View;
 import clients.currentShares.CurrentSharesView;
+import database.dBV;
 
 public class HistoryEventView extends JFrame{
 	/**
@@ -56,10 +57,8 @@ public class HistoryEventView extends JFrame{
 		}
         
 		try{
-			Class.forName("org.postgresql.Driver");
-			Connection connection = DriverManager.getConnection(
-							"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-							"password");
+			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT USER_ID, TITLE AS EVENT_TITLE, DATE, ROOM, STARTTIME AS STARTED_AT, ENDTIME AS FINISHED_AT, DESCR AS DESCRIPTION FROM EVENT WHERE DATE<'" + date2 + "'AND USER_ID='" + userid +"'");
 			ResultSetMetaData rsmd = resultSet.getMetaData(); 

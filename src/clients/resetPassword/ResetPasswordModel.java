@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import database.dBV;
+
 public class ResetPasswordModel {
 
 	public ResetPasswordModel(){
@@ -26,10 +28,8 @@ public class ResetPasswordModel {
 				//update user details
 				String resetPasswordSQL = "update " + database.JDBConnect.tbl_user + " set PASSWORD='" + hashed + "' where USERNAME='" + un + "'";
 				
-				Class.forName("org.postgresql.Driver");
-				Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 				connection.createStatement().execute(resetPasswordSQL);
 				System.out.println(un + "'s password is reset!");
 			}

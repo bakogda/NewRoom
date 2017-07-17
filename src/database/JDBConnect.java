@@ -33,10 +33,8 @@ System.out.println("-------- PostgreSQL "
 			+ "JDBC Connection Testing ------------");
 
 
-Class.forName("org.postgresql.Driver");
-Connection connection = DriverManager.getConnection(
-		"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-		"password");
+Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 connection.createStatement().execute("CREATE TABLE IF NOT EXISTS " + tbl_user +" (USER_ID SERIAL PRIMARY KEY, USERNAME varchar(32), PASSWORD varchar(50), FIRSTNAME varchar(50), LASTNAME varchar(50), USERTYPE varchar(20))");
 //insert dummy account info
 connection.createStatement().execute("insert into " + tbl_user +" values " + "('1','" + admin + "','"+ adminPass + "','John','Watt','admin')");
@@ -55,10 +53,7 @@ System.out.println("Table: " + tbl_user + " exists!");
 public static void eventTable() throws ClassNotFoundException, SQLException{
 	//start creating the database 
 	try {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		connection.createStatement().execute("create table " + tbl_event + "(EVENT_ID SERIAL PRIMARY KEY, USER_ID INTEGER REFERENCES userdet, TITLE varchar(50), DATE date,ROOM varchar(50), STARTTIME TIME, ENDTIME TIME, DESCR varchar(200))"); 
 		
 		
@@ -75,10 +70,8 @@ public static void eventTable() throws ClassNotFoundException, SQLException{
 
 public static void inviteTable() throws ClassNotFoundException, SQLException{
 	try {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 		connection.createStatement().execute("create table " + tbl_invite +" (INVITE_ID SERIAL PRIMARY KEY, EVENT_ID INTEGER REFERENCES event, USER_ID INTEGER REFERENCES userdet, USERNAME_INVITED varchar(50), ATTENDING char(3), REASON varchar(300))");
 		
 		System.out.println("All ok...");
@@ -92,10 +85,8 @@ public static void inviteTable() throws ClassNotFoundException, SQLException{
 
 private static void notesTable() {
 	try {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-				"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 		connection.createStatement().execute("create table " + tbl_notes +" (NOTES_ID SERIAL PRIMARY KEY, EVENT_ID INTEGER REFERENCES event, USER_ID INTEGER REFERENCES event, INVITE_ID INTEGER REFERENCES invite, NOTES varchar(8000))");
 		System.out.println(tbl_notes + " table created");
 		

@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 import clients.mainPanel.MainCalendar;
+import database.dBV;
 
 public class RemoveEventView extends JFrame{
 
@@ -108,9 +109,8 @@ public class RemoveEventView extends JFrame{
 	
 	public static String getRecords(String means) throws SQLException
 	{
-		Connection connection = DriverManager.getConnection(
-				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-				"password");		
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+	
 		Statement statement = connection.createStatement();
 		
 		String s= "SELECT * FROM " + database.JDBConnect.tbl_event + " WHERE date = '" + means + "'";

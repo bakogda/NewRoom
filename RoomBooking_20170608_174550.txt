@@ -1,0 +1,2 @@
+ERROR - 17:45:50: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventClient.java (No such file or directory)
+ERROR - 17:45:50: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventClient.java (No such file or directory)

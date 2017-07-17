@@ -23,6 +23,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
+import database.dBV;
+
 public class ViewUsersView extends JFrame{
 
 	/**
@@ -83,9 +85,8 @@ public class ViewUsersView extends JFrame{
 	public static void viewUsers() throws SQLException{
 		String SQL_statement = "select username, firstname , lastname from " + database.JDBConnect.tbl_user;
 		
-		Connection connection = DriverManager.getConnection(
-				"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-				"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 		
 		//create a new statement
 		Statement statement = connection.createStatement();

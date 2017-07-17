@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 
 import admin.View;
 import database.DesEncrypter;
+import database.dBV;
 import resources.Print;
 
 import javax.swing.SwingConstants;
@@ -75,9 +76,7 @@ public class EventNotesView extends JFrame {
 		try{
 			String SQL_statement = "SELECT TITLE,E_ID FROM EVENT WHERE USER_ID ='"+ userid +"'";
 			
-			Connection connection = DriverManager.getConnection(
-					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-					"password");
+			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 			
 			//create a new statement
 			Statement statement = connection.createStatement();
@@ -100,9 +99,7 @@ public class EventNotesView extends JFrame {
 		try{
 			String SQL_statement = "SELECT TITLE,INVITE_ID FROM INVITE,EVENT WHERE EVENT_ID = E_ID AND USERNAME_INVITED='"+ usn +"'";
 			
-			Connection connection = DriverManager.getConnection(
-					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-					"password");
+			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 			
 			//create a new statement
 			Statement statement = connection.createStatement();
@@ -134,9 +131,8 @@ public class EventNotesView extends JFrame {
 				
 				try{
 					Class.forName("org.postgresql.Driver");
-					Connection connection = DriverManager.getConnection(
-									"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-									"password");
+					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 					Statement statement = connection.createStatement();
 						String SQL_statement = ("SELECT E_ID FROM EVENT WHERE TITLE ='"+ eiName +"' OR TITLE ='"+ eName +"'");
 						ResultSet resultSet = statement.executeQuery(SQL_statement);
@@ -166,9 +162,8 @@ public class EventNotesView extends JFrame {
 				try {
 					
 					notes.setText("");
-					Connection connection = DriverManager.getConnection(
-							"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-							"password");		
+					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+		
 					Statement statement = connection.createStatement();
 					
 					String s= "SELECT NOTES FROM " + database.JDBConnect.tbl_notes + " WHERE EVENT_ID='" + eventID + "' AND NOTES.USER_ID='"+ userid +"'";
@@ -199,9 +194,8 @@ public class EventNotesView extends JFrame {
 					try {
 						
 						notes.setText("");
-						Connection connection = DriverManager.getConnection(
-								"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-								"password");		
+						Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+	
 						Statement statement = connection.createStatement();
 						
 						String s= "SELECT NOTES FROM " + database.JDBConnect.tbl_notes + " WHERE EVENT_ID ='" + eventID + "'AND NOTES.USER_ID='"+ userid +"'";
@@ -256,10 +250,8 @@ public class EventNotesView extends JFrame {
 				String notesEnc = DesEncrypter.encrypt(eNotes, "AES");
 				
 				try{
-					Class.forName("org.postgresql.Driver");
-					Connection connection = DriverManager.getConnection(
-									"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-									"password");
+					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 					Statement statement = connection.createStatement();
 						String SQL_statement = ("SELECT E_ID FROM EVENT WHERE TITLE ='"+ eiName +"' OR TITLE ='"+ eName +"'");
 						ResultSet resultSet = statement.executeQuery(SQL_statement);
@@ -275,9 +267,7 @@ public class EventNotesView extends JFrame {
 				} catch (SQLException e1) {
 					System.out.println("Error!");
 					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}finally
 				{
 					
@@ -294,10 +284,8 @@ public class EventNotesView extends JFrame {
 					}else if (eName != null && eiName == null)
 					{
 						try{
-							Class.forName("org.postgresql.Driver");
-							Connection connection = DriverManager.getConnection(
-											"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-											"password");
+							Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 								String SQL_statement = ("DO $do$ BEGIN IF EXISTS (SELECT * FROM NOTES WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"') THEN UPDATE NOTES SET NOTES = '"+ notesEnc +"' WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"'; ELSE INSERT INTO NOTES VALUES((SELECT max(NOTES_ID)+1 FROM NOTES), '"+ eventID +"', '"+ userid + "','1','"+ notesEnc +"'); END IF; END $do$");
 								System.out.println(SQL_statement);
 								Statement statement = connection.createStatement();
@@ -308,9 +296,6 @@ public class EventNotesView extends JFrame {
 						} catch (SQLException e1) {
 							System.out.println("Error!");
 							e1.printStackTrace();
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
 						}finally
 						{
 							
@@ -318,10 +303,8 @@ public class EventNotesView extends JFrame {
 					}else if(eName == null && eiName != null)
 					{
 						try{
-							Class.forName("org.postgresql.Driver");
-							Connection connection = DriverManager.getConnection(
-											"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-											"password");
+							Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 								String SQL_statement = ("DO $do$ BEGIN IF EXISTS (SELECT * FROM NOTES WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"') THEN UPDATE NOTES SET NOTES = '"+ notesEnc +"' WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"'; ELSE INSERT INTO NOTES VALUES((SELECT max(NOTES_ID)+1 FROM NOTES), '"+ eventID +"', '"+ userid + "','1','"+ notesEnc +"'); END IF; END $do$");
 								System.out.println(SQL_statement);
 								Statement statement = connection.createStatement();
@@ -331,9 +314,6 @@ public class EventNotesView extends JFrame {
 								toggleOff();
 						} catch (SQLException e1) {
 							System.out.println("Error!");
-							e1.printStackTrace();
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}finally
 						{

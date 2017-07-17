@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import database.dBV;
+
 public class AddUserModel {
 	public AddUserModel(){
 		System.out.println("AddUser model: ");
@@ -18,9 +20,8 @@ public class AddUserModel {
 		if(!database.queryDB.checkUser(usn)){
 			//username does not exist in  the database
 			//insert user data into user table
-			Connection connection = DriverManager.getConnection(
-					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-					"password");			
+			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 			connection.createStatement().execute(addUserSQL);
 			System.out.println("User " + usn + " added!");
 		}

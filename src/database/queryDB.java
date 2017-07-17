@@ -16,10 +16,8 @@ public class queryDB {
 
 		//this code is used by the login table
 		//connect to the database
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 
 		//create a new statement
 		Statement statement = connection.createStatement();
@@ -42,10 +40,8 @@ public class queryDB {
 
 	//checks if the username exists in the database, returns true if it does
 	public static boolean checkUser(String user) throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(SQL_statement);
 		ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -67,10 +63,8 @@ public class queryDB {
 	}
 
 	public static boolean checkPass(String pass) throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(SQL_statement);
 		ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -94,10 +88,8 @@ public class queryDB {
 	//a useful template
 	//redundant code at the moment....
 	public static void query(String theQuery) throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(theQuery);
 		ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -117,20 +109,15 @@ public class queryDB {
 	public static void addEvent(String userid, String title, String date, String room, String st, String et, String desc) throws ClassNotFoundException, SQLException{
 		String addEventSQL = "insert into " + database.JDBConnect.tbl_event + "(USER_ID, TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR) values ('" + userid + "','" + title + "','" + date + "','" + room + "','" + st +"','" + et + "','" + desc + "')";
 
-		Class.forName("org.postgresql.Driver");
-		Connection conn = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
-		conn.createStatement().execute(addEventSQL);
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
+		connection.createStatement().execute(addEventSQL);
 		System.out.println("Event with title " + title + " added!");
 	}
 	
 	public static String getId(String usn) throws ClassNotFoundException, SQLException
 	{
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery("SELECT USER_ID FROM userdet WHERE USERNAME='"+ usn +"'");
 		while(resultSet.next())
@@ -145,10 +132,7 @@ public class queryDB {
 
 
 	public static boolean isEvent(String date) throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery("SELECT * FROM event WHERE DATE='" + date + "'");
 		ResultSetMetaData rsmd = resultSet.getMetaData(); 
@@ -170,10 +154,7 @@ public class queryDB {
 	}
 	
 	public static boolean histEvent(String date, String username) throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery("SELECT * FROM event WHERE DATE<'" + date + "'AND USERNAME='" + username +"'");
 		ResultSetMetaData rsmd = resultSet.getMetaData(); 
@@ -189,10 +170,7 @@ public class queryDB {
 	}
 
 	public static String getQuery(String theQuery) throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		Connection connection = DriverManager.getConnection(
-						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-						"password");
+		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		Statement statement = connection.createStatement();
 		ResultSet resultSet = statement.executeQuery(theQuery);
 		ResultSetMetaData rsmd = resultSet.getMetaData();

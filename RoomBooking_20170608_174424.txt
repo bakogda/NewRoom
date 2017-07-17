@@ -1,0 +1,11 @@
+ERROR - 17:44:24: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventController.java (No such file or directory)
+ERROR - 17:44:24: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventController.java (No such file or directory)
+ERROR - 17:44:29: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventModel.java (No such file or directory)
+ERROR - 17:44:29: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventModel.java (No such file or directory)
+ERROR - 17:44:35: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventView.java (No such file or directory)
+ERROR - 17:44:35: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventView.java (No such file or directory)
+WARNING - 17:45:26: Convert RoomBooking
+ERROR - 17:45:26: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 17:45:50: Convert RoomBooking
+ERROR - 17:45:50: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventClient.java (No such file or directory)
+ERROR - 17:45:50: java.io.FileNotFoundException: /RoomBooking/src/clients/removeEvent/RemoveEventClient.java (No such file or directory)

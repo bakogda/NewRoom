@@ -23,6 +23,7 @@ import javax.swing.WindowConstants;
 
 import admin.View;
 import clients.currentShares.CurrentSharesView;
+import database.dBV;
 
 public class ViewEvents extends JFrame{
 	/**
@@ -52,9 +53,8 @@ public class ViewEvents extends JFrame{
 		try{
 			String SQL_statement = "SELECT TITLE, DATE, ROOM, TO_CHAR(STARTTIME, 'HH24:MI') AS START_TIME, TO_CHAR(ENDTIME, 'HH24:MI') AS END_TIME, DESCR AS DESCRIPTION FROM EVENT WHERE USER_ID = '"+ userid +"' AND DATE >= now()";
 			System.out.println(SQL_statement);
-			Connection connection = DriverManager.getConnection(
-					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-					"password");
+			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 			
 			//create a new statement
 			Statement statement = connection.createStatement();
@@ -158,10 +158,7 @@ public class ViewEvents extends JFrame{
 		            	  {
 		            		  String eventID = null;
 		            		  try{	
-		            			  Connection connection = DriverManager.getConnection(
-		            						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-		            						"password");
-		            			  
+		            				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);		            			  
 		            					String SQL_statement1 = ("SELECT TITLE,E_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
 		            					Statement statement1 = connection.createStatement();
 		            					ResultSet rs = statement1.executeQuery(SQL_statement1);
@@ -181,10 +178,7 @@ public class ViewEvents extends JFrame{
 		            		  }
 		            		  try
 		            		  {
-		            			  Connection connection = DriverManager.getConnection(
-		          						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-		          						"password");
-		          			  
+		            				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);		          			  
 		          					String SQL_statement12 = ("UPDATE INVITE SET ATTENDING='Yes' WHERE EVENT_ID='"+ eventID +"' and USERNAME_INVITED='"+ usn +"'");
 		          					System.out.println(SQL_statement12);
 		          					Statement statement12 = connection.createStatement();
@@ -210,10 +204,7 @@ public class ViewEvents extends JFrame{
 	        	  {
 	        		  String eventID = null;
 	        		  try{	
-	        			  Connection connection = DriverManager.getConnection(
-	        						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-	        						"password");
-	        			  
+	        				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 	        					String SQL_statement1 = ("SELECT TITLE,E_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
 	        					Statement statement1 = connection.createStatement();
 	        					ResultSet rs = statement1.executeQuery(SQL_statement1);
@@ -233,10 +224,7 @@ public class ViewEvents extends JFrame{
 	        		  }
 	        		  try
 	        		  {
-	        			  Connection connection = DriverManager.getConnection(
-	      						"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-	      						"password");
-	      			  
+	        				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);	      			  
 	      					String SQL_statement12 = ("UPDATE INVITE SET ATTENDING='No' WHERE EVENT_ID='"+ eventID +"' and USERNAME_INVITED='"+ usn +"'");
 	      					System.out.println(SQL_statement12);
 	      					Statement statement12 = connection.createStatement();

@@ -9,6 +9,7 @@ import java.sql.Statement;
 import javax.swing.*;
 
 import admin.View;
+import database.dBV;
 
 class NewEventWindow extends JFrame {
 	/**
@@ -85,11 +86,7 @@ class NewEventWindow extends JFrame {
 				
 						
 				try {
-					Class.forName("org.postgresql.Driver");
-					Connection connection = DriverManager.getConnection(
-									"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-									"password");
-					
+					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);					
 					Statement statement1 = connection.createStatement();
 					ResultSet resultSet1 =statement1.executeQuery("SELECT * FROM event WHERE DATE='"+ date +"'AND STARTTIME BETWEEN '"+ st +"'AND '"+ et +"'");
 	

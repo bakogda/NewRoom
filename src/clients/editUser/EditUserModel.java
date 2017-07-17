@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import database.dBV;
+
 public class EditUserModel {
 	
 	public EditUserModel(){
@@ -20,9 +22,8 @@ public class EditUserModel {
 		if(database.queryDB.checkUser(usn)){
 			//user name does exist in the database
 			//insert user data into user table
-			Connection connection = DriverManager.getConnection(
-					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-					"password");		
+			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 			System.out.println("here");
 			connection.createStatement().execute(updateUserSQL);
 			System.out.println("here2");

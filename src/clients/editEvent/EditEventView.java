@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import admin.View;
+import database.dBV;
 
 public class EditEventView extends JFrame
 {	
@@ -83,9 +84,8 @@ public class EditEventView extends JFrame
 		try{
 			String SQL_statement = "SELECT E_ID, TITLE, DATE, ROOM, TO_CHAR(STARTTIME, 'HH:MI'), TO_CHAR(ENDTIME, 'HH:MI'), DESCR FROM EVENT WHERE USER_ID='"+ userid +"' AND DATE >= NOW()";
 			System.out.println(SQL_statement);
-			Connection connection = DriverManager.getConnection(
-					"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-					"password");
+			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 			
 			//create a new statement
 			Statement statement = connection.createStatement();
@@ -110,9 +110,8 @@ public class EditEventView extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				String eName = (String)eventNames.getSelectedItem();
 				try{
-					Connection connection = DriverManager.getConnection(
-							"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-							"password");
+					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 					
 					String SQL_statement = "SELECT E_ID, DATE,ROOM, TO_CHAR(STARTTIME, 'HH24:MI') AS STARTTIME, TO_CHAR(ENDTIME, 'HH24:MI') AS ENDTIME, DESCR FROM EVENT WHERE USER_ID='"+ userid +"'AND TITLE='"+ eName +"'";
 					System.out.println(SQL_statement);
@@ -161,9 +160,8 @@ public class EditEventView extends JFrame
 				
 
 				try{
-					Connection connection = DriverManager.getConnection(
-							"jdbc:postgresql://127.0.0.1:5432/booking", "postgres",
-							"password");
+					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
+
 					
 					String SQL_statement = "UPDATE EVENT SET DATE='"+ dateEvent +"', STARTTIME ='"+ timeFr +"', ENDTIME='"+ timeTo +"', ROOM='"+ room +"', DESCR='"+ descr +"' WHERE USER_ID='"+ userid +"'AND TITLE='"+ eName +"'";
 					System.out.println(SQL_statement);

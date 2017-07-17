@@ -21,7 +21,7 @@ import clients.mainPanel.DatePicker;
 public class AddUserView extends JFrame{
 
 	/**
-	 * Meow
+	 * Bako Gdaniec
 	 */
 	private static final long serialVersionUID = 1L;//stops eclipse from complaining
 	//create all objects which will be on the panel

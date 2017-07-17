@@ -63,9 +63,15 @@ public class MainView extends JFrame{
 		shareButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				ShareView sView = new ShareView();
-				sView.setTitle("Invite User(s)");
-				sView.setVisible(true);
+				ShareModel shModel = new ShareModel();
+				ShareView shView = new ShareView();
+				ShareController shCont = new ShareController();
+				shCont.addModel(shModel);
+				shCont.addView(shView);
+				shView.aclShare(shCont);
+				shView.aclSearch(shCont);
+				shView.setTitle("Invite User(s)");
+				shView.setVisible(true);
 			}
 		});
 		//Open Calendar
