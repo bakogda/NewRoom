@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -19,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import admin.View;
-import database.DesEncrypter;
 import database.dBV;
 import resources.Print;
 
@@ -33,13 +31,11 @@ public class EventNotesView extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JComboBox<String> eventNames = new JComboBox<String>();
-	JComboBox<String> ieventNames = new JComboBox<String>();
+	static JComboBox<String> eventNames = new JComboBox<String>();
+	static JComboBox<String> ieventNames = new JComboBox<String>();
 	JPanel panel = new JPanel();
 	JTextArea notes = new JTextArea();
-	
-	String notesToDecrypt = new String();
-	
+		
 	JLabel notesLabel = new JLabel("Meeting Notes:");
 	JLabel ieventNamesLabel = new JLabel("Invited Meeting:");
 	JLabel eventNamesLabel = new JLabel("Your Events:");
@@ -63,273 +59,6 @@ public class EventNotesView extends JFrame {
 		ieventNames.insertItemAt(null, 0);
 		String eName = (String)eventNames.getSelectedItem();
 		String eiName = (String)ieventNames.getSelectedItem();
-		
-		
-		try {
-			userid = database.queryDB.getId(usn);
-			System.out.println(userid);
-		} catch (ClassNotFoundException | SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-		try{
-			String SQL_statement = "SELECT TITLE,E_ID FROM EVENT WHERE USER_ID ='"+ userid +"'";
-			
-			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-			
-			//create a new statement
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SQL_statement);
-			while(resultSet.next())
-			{
-				eventNames.addItem(resultSet.getString(1));
-				
-			}
-				
-			if (statement != null) statement.close();
-			if (connection != null) connection.close();
-		}catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, "ERROR");
-		}finally
-		{
-		
-		}
-		try{
-			String SQL_statement = "SELECT TITLE,INVITE_ID FROM INVITE,EVENT WHERE EVENT_ID = E_ID AND USERNAME_INVITED='"+ usn +"'";
-			
-			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-			
-			//create a new statement
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SQL_statement);
-			while(resultSet.next())
-			{
-				ieventNames.addItem(resultSet.getString(1));
-			}
-			
-			if (statement != null) statement.close();
-			if (connection != null) connection.close();
-		}catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, "ERROR");
-		}finally
-		{
-		
-		}
-		
-		getNotes.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				String eName = (String)eventNames.getSelectedItem();
-				String eiName = (String)ieventNames.getSelectedItem();
-				String eventID = null;
-			    String decryptedString = DesEncrypter.decrypt(notesToDecrypt, "AES") ;
-
-				
-				try{
-					Class.forName("org.postgresql.Driver");
-					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-
-					Statement statement = connection.createStatement();
-						String SQL_statement = ("SELECT E_ID FROM EVENT WHERE TITLE ='"+ eiName +"' OR TITLE ='"+ eName +"'");
-						ResultSet resultSet = statement.executeQuery(SQL_statement);
-						System.out.println(SQL_statement);
-
-						while(resultSet.next())
-						{
-							eventID = resultSet.getString("E_ID");
-						}
-						if (resultSet != null) resultSet.close();
-						if (statement != null) statement.close();
-						if (connection != null) connection.close();
-				} catch (SQLException e1) {
-					System.out.println("Error!");
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}finally
-				{
-					notes.append(decryptedString);
-				}
-				
-				System.out.println(eventID);
-				if(eName != null && eiName == null)
-				{
-				try {
-					
-					notes.setText("");
-					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-		
-					Statement statement = connection.createStatement();
-					
-					String s= "SELECT NOTES FROM " + database.JDBConnect.tbl_notes + " WHERE EVENT_ID='" + eventID + "' AND NOTES.USER_ID='"+ userid +"'";
-					ResultSet resultSet = statement.executeQuery(s);
-					ResultSetMetaData rsmd = resultSet.getMetaData();
-					int colCount = rsmd.getColumnCount();
-					
-					if (resultSet.next())
-					{
-						 notesToDecrypt = resultSet.getString("NOTES") ;
-						 notes.append(decryptedString);
-					}
-				
-					
-					if (statement != null) statement.close();
-					if (connection != null) connection.close();
-		
-					
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}finally
-				{
-					
-				}
-				}else if(eName == null && eiName != null)
-				{
-					try {
-						
-						notes.setText("");
-						Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-	
-						Statement statement = connection.createStatement();
-						
-						String s= "SELECT NOTES FROM " + database.JDBConnect.tbl_notes + " WHERE EVENT_ID ='" + eventID + "'AND NOTES.USER_ID='"+ userid +"'";
-						ResultSet resultSet = statement.executeQuery(s);
-						ResultSetMetaData rsmd = resultSet.getMetaData();
-						int colCount = rsmd.getColumnCount();
-						
-						if (resultSet.next())
-						{
-							 notesToDecrypt = resultSet.getString("NOTES");
-							 notes.setText(decryptedString);
-						}
-					    
-
-						
-						if (statement != null) statement.close();
-						if (connection != null) connection.close();
-			
-						
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}finally
-					{
-						
-					}
-					}else
-					{
-						notes.setText("");					
-						}
-			}
-			});
-		
-		
-		cancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				toggleOff();
-			}
-		});
-		
-		save.addActionListener(new ActionListener(){
-			
-			
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				String eName = (String)eventNames.getSelectedItem();
-				String eiName = (String)ieventNames.getSelectedItem();
-				String eNotes = notes.getText();
-				String eventID = null;
-				String notesEnc = DesEncrypter.encrypt(eNotes, "AES");
-				
-				try{
-					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-
-					Statement statement = connection.createStatement();
-						String SQL_statement = ("SELECT E_ID FROM EVENT WHERE TITLE ='"+ eiName +"' OR TITLE ='"+ eName +"'");
-						ResultSet resultSet = statement.executeQuery(SQL_statement);
-						System.out.println(SQL_statement);
-
-						while(resultSet.next())
-						{
-							eventID = resultSet.getString("E_ID");
-						}
-						if (resultSet != null) resultSet.close();
-						if (statement != null) statement.close();
-						if (connection != null) connection.close();
-				} catch (SQLException e1) {
-					System.out.println("Error!");
-					e1.printStackTrace();
-					// TODO Auto-generated catch block
-				}finally
-				{
-					
-				}
-				
-				System.out.println(eventID);
-				
-				if(eName == null && eiName == null)
-					{
-						JOptionPane.showMessageDialog(null, "Please Choose only one event!");
-					}else if(eName != null && eiName != null)
-					{
-						JOptionPane.showMessageDialog(null, "Please Choose only one event!");
-					}else if (eName != null && eiName == null)
-					{
-						try{
-							Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-
-								String SQL_statement = ("DO $do$ BEGIN IF EXISTS (SELECT * FROM NOTES WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"') THEN UPDATE NOTES SET NOTES = '"+ notesEnc +"' WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"'; ELSE INSERT INTO NOTES VALUES((SELECT max(NOTES_ID)+1 FROM NOTES), '"+ eventID +"', '"+ userid + "','1','"+ notesEnc +"'); END IF; END $do$");
-								System.out.println(SQL_statement);
-								Statement statement = connection.createStatement();
-								statement.executeUpdate(SQL_statement);
-								if (statement != null) statement.close();
-								if (connection != null) connection.close();
-								toggleOff();
-						} catch (SQLException e1) {
-							System.out.println("Error!");
-							e1.printStackTrace();
-						}finally
-						{
-							
-						}
-					}else if(eName == null && eiName != null)
-					{
-						try{
-							Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-
-								String SQL_statement = ("DO $do$ BEGIN IF EXISTS (SELECT * FROM NOTES WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"') THEN UPDATE NOTES SET NOTES = '"+ notesEnc +"' WHERE USER_ID = '"+ userid +"' AND EVENT_ID ='"+ eventID +"'; ELSE INSERT INTO NOTES VALUES((SELECT max(NOTES_ID)+1 FROM NOTES), '"+ eventID +"', '"+ userid + "','1','"+ notesEnc +"'); END IF; END $do$");
-								System.out.println(SQL_statement);
-								Statement statement = connection.createStatement();
-								 statement.executeUpdate(SQL_statement);
-								if (statement != null) statement.close();
-								if (connection != null) connection.close();
-								toggleOff();
-						} catch (SQLException e1) {
-							System.out.println("Error!");
-							e1.printStackTrace();
-						}finally
-						{
-							
-						}
-					}
-			}
-			});
-		
-		print.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				Print.printComponent(notes);
-			}
-		});
 		
 		panel.setLayout(null);
 		eventNamesLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -360,10 +89,47 @@ public class EventNotesView extends JFrame {
 		panel.add(notes);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setVisible(true);
+		
+		try {
+			userid = database.queryDB.getId(usn);
+			EventNotesModel.getEvent(userid);
+			EventNotesModel.getEvents(usn);
+		} catch (ClassNotFoundException | SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		
+		cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				toggleOff();
+			}
+		});
+		
+		
+		print.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Print.printComponent(notes);
+			}
+		});
 
 	}
+	public void aclSave(ActionListener c)
+	{
+		System.out.println("Save button action Listener");
+		save.addActionListener(c);
+	}
 	
-	private void toggleOff() {
+	public void aclGet(ActionListener d)
+	{
+		System.out.println("Get / Create button Action Listener");
+		getNotes.addActionListener(d);
+	}
+	
+	void toggleOff() {
 		this.setVisible(false);
 	}
 	}
