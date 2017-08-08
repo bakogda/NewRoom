@@ -41,6 +41,7 @@ public class ShareModel
 		System.out.println(inviteSQL);
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		connection.createStatement().execute(inviteSQL);
+		
 
 	}
 }

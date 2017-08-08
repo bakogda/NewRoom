@@ -10,7 +10,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -47,15 +46,18 @@ public class ShareView extends JFrame{
 	JPanel shView = new JPanel();
 	
 	
-	private static JTextField sm_enterName = new JTextField(10);//enter the staff you want to search for!
-	private static JTextField sm_enterName2 = new JTextField(10);
-	private static JTextField sm_enterName3 = new JTextField(10);
-	private static JTextField sm_enterName4 = new JTextField(10);
-	private static JTextField sm_enterName5 = new JTextField(10);
-	private static JTextField sm_enterName6 = new JTextField(10);
+	static JTextField sm_enterName = new JTextField(10);//enter the staff you want to search for!
+	static JTextField sm_enterName2 = new JTextField(10);
+	static JTextField sm_enterName3 = new JTextField(10);
+	static JTextField sm_enterName4 = new JTextField(10);
+	static JTextField sm_enterName5 = new JTextField(10);
+	static JTextField sm_enterName6 = new JTextField(10);
+	JTextArea removeUser = new JTextArea();
+
 
 	private JButton searchButton = new JButton("Search");
 	private JButton shareButton = new JButton("Invite");
+	private JButton removeButton = new JButton("Remove");
 	private JButton checkusr1 = new JButton("Check User");
 	private JButton checkusr2 = new JButton("Check User");
 	private JButton checkusr3 = new JButton("Check User");
@@ -63,7 +65,6 @@ public class ShareView extends JFrame{
 	private JButton checkusr5 = new JButton("Check User");
 	private JButton checkusr6 = new JButton("Check User");
 	private JButton cancel = new JButton("Cancel");
-	private JButton remove = new JButton("Remove");
 	String usn = View.getLogin();
 	String userid = null;
 	String eventID = null;
@@ -138,13 +139,11 @@ public class ShareView extends JFrame{
 				lblRemoveUser.setBounds(29, 214, 135, 27);
 				shView.add(lblRemoveUser);
 				
-				JTextArea removeUser = new JTextArea();
 				removeUser.setBounds(142, 219, 130, 21);
 				shView.add(removeUser);
 				
-				JButton btnRemove = new JButton("Remove ");
-				btnRemove.setBounds(272, 219, 117, 29);
-				shView.add(btnRemove);
+				removeButton.setBounds(272, 219, 117, 29);
+				shView.add(removeButton);
 				
 				setVisible(true);
 				
@@ -178,190 +177,12 @@ public class ShareView extends JFrame{
 		
 		}
 		//CANCEL BUTTON
-		
-		
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleOff();
 			}
 		});
-	
-		
-			
-		
-		//SEARCH BUTTON 
-		
-		
-		searchButton.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				String eName = (String)eventNames.getSelectedItem();
-				sm_enterName.setText(null);
-				sm_enterName2.setText(null);
-				sm_enterName3.setText(null);
-				sm_enterName4.setText(null);
-				sm_enterName5.setText(null);
-				sm_enterName6.setText(null);
-				
-				try{
-					String SQL_statement = "SELECT E_ID, USER_ID, TITLE FROM EVENT WHERE USER_ID='" +userid+"' AND TITLE='"+ eName +"'";
-					
-					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-
-					
-					//create a new statement
-					Statement statement = connection.createStatement();
-					ResultSet resultSet = statement.executeQuery(SQL_statement);
-					while(resultSet.next())
-					{
-						eventID = resultSet.getString("E_ID");
-					}
-					
-					if (statement != null) statement.close();
-					if (connection != null) connection.close();
-				}catch(Exception e1)
-				{
-					JOptionPane.showMessageDialog(null, "ERROR");
-				}finally
-				{
-				
-					
-				}
-				try {
-					sm_enterName.setText(getFirstInvitation(userid, eventID, eName));
-					String data=sm_enterName.getText().trim();
-					if(!data.equals(""))
-					{
-						sm_enterName.setEditable(false);
-					}else
-					{
-						sm_enterName.setEditable(true);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					sm_enterName2.setText(getSecondInvitation(userid, eventID, eName));
-					String data=sm_enterName2.getText().trim();
-					if(!data.equals(""))
-					{
-						sm_enterName2.setEditable(false);
-					}else
-					{
-						sm_enterName2.setEditable(true);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					sm_enterName3.setText(getThirdInvitation(userid, eventID, eName));
-					String data=sm_enterName3.getText().trim();
-					if(!data.equals(""))
-					{
-						sm_enterName3.setEditable(false);
-					
-					}else
-					{
-						sm_enterName3.setEditable(true);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					sm_enterName4.setText(getFourthInvitation(userid, eventID, eName));
-					String data=sm_enterName4.getText().trim();
-					if(!data.equals(""))
-					{
-						sm_enterName4.setEditable(false);
-					
-					}else
-					{
-						sm_enterName4.setEditable(true);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					sm_enterName5.setText(getFithInvitation(userid, eventID, eName));
-					String data=sm_enterName5.getText().trim();
-					if(!data.equals(""))
-					{
-						sm_enterName5.setEditable(false);
-						
-					}else
-					{
-						sm_enterName5.setEditable(true);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					sm_enterName6.setText(getSixthInvitation(userid, eventID, eName));
-					String data=sm_enterName6.getText().trim();
-					if(!data.equals(""))
-					{
-						sm_enterName6.setEditable(false);
-					}else
-					{
-						sm_enterName6.setEditable(true);
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		// REMOVE BUTTON
-		btnRemove.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String eName = (String)eventNames.getSelectedItem();
-				String userName = removeUser.getText();
-				
-				try
-				{
-					String SQL_statement = "SELECT E_ID FROM EVENT WHERE USER_ID='" +userid+"' AND TITLE='"+ eName +"'";
-					
-					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-					
-					//create a new statement
-					Statement statement = connection.createStatement();
-					ResultSet resultSet = statement.executeQuery(SQL_statement);
-					while(resultSet.next())
-					{
-						eventID = resultSet.getString("E_ID");
-					}
-					
-					if (statement != null) statement.close();
-					if (connection != null) connection.close();
-				}catch(Exception e1)
-				{
-					JOptionPane.showMessageDialog(null, "ERROR");
-				}finally
-				{
-				
-				}
-
-						try{
-							Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-		
-			
-						String SQL_statement = ("DELETE FROM INVITE WHERE EVENT_ID ='"+ eventID +"' AND USERNAME_INVITED='"+ userName +"' ");
-						System.out.println(SQL_statement);
-						Statement statement = connection.createStatement();
-						statement.executeUpdate(SQL_statement);
-						
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} 
-						toggleOff();
-			}
-				});
-		
-		// CHECK USERS BUTTONS
 		
 			checkusr1.addActionListener(new ActionListener()
 					{
@@ -603,7 +424,7 @@ public class ShareView extends JFrame{
 	public void aclRemove(ActionListener f)
 	{
 		System.out.println("Remove button action listener: ");
-		remove.addActionListener(f);
+		removeButton.addActionListener(f);
 	}
 	
 	void toggleOff() {
@@ -642,7 +463,7 @@ public class ShareView extends JFrame{
 	
 	
 	
-	private String getFirstInvitation(String userid, String eventID, String eName) throws SQLException {
+	String getFirstInvitation(String userid, String eventID, String eName) throws SQLException {
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);	
 		
 		String s= "SELECT USERNAME_INVITED,TITLE FROM INVITE,EVENT WHERE event.user_id = '" + userid + "'AND EVENT_ID= '"+ eventID+"' and TITLE = '"+ eName +"' LIMIT 1" ;
@@ -666,7 +487,7 @@ public class ShareView extends JFrame{
 		
 	}
 	
-	private String getSecondInvitation(String userid, String eventID, String eName) throws SQLException {
+	String getSecondInvitation(String userid, String eventID, String eName) throws SQLException {
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);	
 		Statement statement = connection.createStatement();
 		
@@ -691,7 +512,7 @@ public class ShareView extends JFrame{
 		
 	}
 	
-	private String getThirdInvitation(String userid, String eventID, String eName) throws SQLException {
+	String getThirdInvitation(String userid, String eventID, String eName) throws SQLException {
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);	
 		Statement statement = connection.createStatement();
 		
@@ -717,7 +538,7 @@ public class ShareView extends JFrame{
 		
 	}
 	
-	private String getFourthInvitation(String userid, String eventID, String eName) throws SQLException {
+	String getFourthInvitation(String userid, String eventID, String eName) throws SQLException {
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);		
 		Statement statement = connection.createStatement();
 		
@@ -743,7 +564,7 @@ public class ShareView extends JFrame{
 		
 	}
 	
-	private String getFithInvitation(String userid, String eventID, String eName) throws SQLException {
+	String getFithInvitation(String userid, String eventID, String eName) throws SQLException {
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		
 		Statement statement = connection.createStatement();
@@ -770,7 +591,7 @@ public class ShareView extends JFrame{
 		
 	}
 	
-	private String getSixthInvitation(String userid, String eventID, String eName) throws SQLException {
+	String getSixthInvitation(String userid, String eventID, String eName) throws SQLException {
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 		
 		Statement statement = connection.createStatement();
