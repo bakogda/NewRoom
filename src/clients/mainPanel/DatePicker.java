@@ -1,8 +1,17 @@
 package clients.mainPanel;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class DatePicker {
 	int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
@@ -69,8 +78,7 @@ public class DatePicker {
 	public void displayDate() {
 		for (int x = 7; x < button.length; x++)
 			button[x].setText("");
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-				"MMMM yyyy");
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM yyyy");
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.set(year, month, 1);
 		int dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
@@ -84,8 +92,7 @@ public class DatePicker {
 	public String setPickedDate() {
 		if (day.equals(""))
 			return day;
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-				"yyyy-MM-dd");
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.set(year, month, Integer.parseInt(day));
 		return sdf.format(cal.getTime());
