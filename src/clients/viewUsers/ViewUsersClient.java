@@ -6,8 +6,5 @@ public class ViewUsersClient {
 		view.setTitle("View Users");
 		view.setVisible(true);
 	}
-	
-	
-	
-	
+
 }
