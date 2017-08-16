@@ -55,7 +55,9 @@ public class JDBConnect {
 		try {
 			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 			connection.createStatement().execute("create table " + tbl_event
-					+ "(EVENT_ID SERIAL PRIMARY KEY, USER_ID INTEGER REFERENCES userdet, TITLE varchar(50), DATE date,ROOM varchar(50), STARTTIME TIME, ENDTIME TIME, DESCR varchar(200))");
+					+ "(EVENT_ID SERIAL PRIMARY KEY, USER_ID INTEGER REFERENCES userdet ON DELETE CASCADE, TITLE varchar(50), DATE date,ROOM varchar(50), STARTTIME TIME, ENDTIME TIME, DESCR varchar(200))");
+		    connection.createStatement().execute("insert into " + tbl_event + "(USER_ID, TITLE, DATE, ROOM, STARTTIME, ENDTIME, DESCR) values ('2','TEST','2017-08-17','Room 1','09:00','09:00','')");
+		   
 			System.out.println(tbl_event + " table created");
 
 			System.out.println("All ok...");
@@ -71,8 +73,8 @@ public class JDBConnect {
 			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 
 			connection.createStatement().execute("create table " + tbl_invite
-					+ " (INVITE_ID SERIAL PRIMARY KEY, EVENT_ID INTEGER REFERENCES event, USER_ID INTEGER REFERENCES userdet, USERNAME_INVITED varchar(50), ATTENDING char(3), REASON varchar(300))");
-
+					+ " (INVITE_ID SERIAL PRIMARY KEY, EVENT_ID INTEGER REFERENCES event ON DELETE CASCADE, USER_ID INTEGER REFERENCES userdet ON UPDATE CASCADE ON DELETE CASCADE, USERNAME_INVITED varchar(50), ATTENDING char(3), REASON varchar(300))");
+			connection.createStatement().execute("INSERT INTO INVITE VALUES('1','1','2','admin')");
 			System.out.println("All ok...");
 		} catch (Exception e) {
 			System.out.println("Table: " + tbl_invite + " exists!");
@@ -86,9 +88,9 @@ public class JDBConnect {
 			Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 
 			connection.createStatement().execute("create table " + tbl_notes
-					+ " (NOTES_ID SERIAL PRIMARY KEY, EVENT_ID INTEGER REFERENCES event, USER_ID INTEGER REFERENCES event, INVITE_ID INTEGER REFERENCES invite, NOTES varchar(8000))");
+					+ " (NOTES_ID SERIAL PRIMARY KEY, EVENT_ID INTEGER REFERENCES event ON DELETE CASCADE, USER_ID INTEGER REFERENCES event ON DELETE CASCADE, INVITE_ID INTEGER REFERENCES invite ON DELETE CASCADE, NOTES varchar(8000))");
 			System.out.println(tbl_notes + " table created");
-
+			connection.createStatement().execute("INSERT INTO NOTES VALUES('1', '1','1','1','XywoRs3rlhC0/du497GN+g==')");
 			System.out.println("All ok...");
 		} catch (Exception e) {
 			System.out.println("Table: " + tbl_notes + " exists!");

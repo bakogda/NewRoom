@@ -5,4 +5,4 @@
  * @author Bako
  *
  */
-package clients;
+package clients.events;

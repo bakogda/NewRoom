@@ -44,15 +44,14 @@ public class CurrentSharesView extends JFrame{
         
         try {
 			userid = database.queryDB.getId(usn);
-			System.out.println(userid);
 		} catch (ClassNotFoundException | SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
        
-        
+       
 		try{
-		String SQL_statement = "SELECT FIRSTNAME AS FIRST_NAME, LASTNAME AS LAST_NAME, TITLE, DATE, ROOM, TO_CHAR(STARTTIME, 'HH24:MI') , TO_CHAR(ENDTIME, 'HH24:MI'), ATTENDING FROM EVENT,INVITE,USERDET WHERE USERNAME_INVITED ='"+usn+"' AND EVENT_ID=E_ID AND EVENT.USER_ID=USERDET.USER_ID";
+		String SQL_statement = "SELECT FIRSTNAME AS FIRST_NAME, LASTNAME AS LAST_NAME, TITLE, DATE, ROOM, TO_CHAR(STARTTIME, 'HH24:MI') , TO_CHAR(ENDTIME, 'HH24:MI'), ATTENDING FROM EVENT,INVITE,USERDET WHERE USERNAME_INVITED ='"+usn+"' AND EVENT.EVENT_ID = INVITE.EVENT_ID AND EVENT.USER_ID=USERDET.USER_ID";
 		System.out.println(SQL_statement);
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 
@@ -165,14 +164,14 @@ public class CurrentSharesView extends JFrame{
 	            				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 
 	            			  
-	            					String SQL_statement1 = ("SELECT TITLE,E_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
+	            					String SQL_statement1 = ("SELECT TITLE,INVITE.EVENT_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
 	            					Statement statement1 = connection.createStatement();
 	            					ResultSet rs = statement1.executeQuery(SQL_statement1);
 	            					System.out.println(SQL_statement1);
 	           
 	            					while (rs.next())
 	            					{
-	        							eventID = rs.getString("E_ID");
+	        							eventID = rs.getString("EVENT_ID");
 	            					}
 	        
 	            		  } catch (SQLException e1) {
@@ -215,14 +214,14 @@ public class CurrentSharesView extends JFrame{
         		  try{	
         					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
         			  
-        					String SQL_statement1 = ("SELECT TITLE,E_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
+        					String SQL_statement1 = ("SELECT TITLE,EVENT.EVENT_ID,USERNAME_INVITED FROM INVITE,EVENT WHERE TITLE='"+ table.getValueAt(table.getSelectedRow(), 2).toString() +"' AND USERNAME_INVITED='"+ usn +"'");
         					Statement statement1 = connection.createStatement();
         					ResultSet rs = statement1.executeQuery(SQL_statement1);
         					System.out.println(SQL_statement1);
        
         					while (rs.next())
         					{
-    							eventID = rs.getString("E_ID");
+    							eventID = rs.getString("EVENT_ID");
         					}
     
         		  } catch (SQLException e1) {

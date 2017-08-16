@@ -136,7 +136,7 @@ public class ShareController implements ActionListener {
 
 			try {
 				userid = database.queryDB.getId(usn);
-				String SQL_statement = "SELECT E_ID, USER_ID, TITLE FROM EVENT WHERE USER_ID='" + userid
+				String SQL_statement = "SELECT EVENT_ID, USER_ID, TITLE FROM EVENT WHERE USER_ID='" + userid
 						+ "' AND TITLE='" + eName + "'";
 
 				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
@@ -145,7 +145,7 @@ public class ShareController implements ActionListener {
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(SQL_statement);
 				while (resultSet.next()) {
-					eventID = resultSet.getString("E_ID");
+					eventID = resultSet.getString("EVENT_ID");
 				}
 
 				if (statement != null)
