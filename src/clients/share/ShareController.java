@@ -15,152 +15,115 @@ import admin.View;
 import database.dBV;
 
 public class ShareController implements ActionListener {
-	
+
 	private ShareModel shModel;
 	private ShareView shView;
-	
-	
-	public ShareController(ShareModel shModel, ShareView shView)
-	{
-		
+
+	public ShareController(ShareModel shModel, ShareView shView) {
+
 		System.out.println("Share Controller:");
 		shView.aclShare(new ShareListener());
 		shView.aclRemove(new RemoveListener());
 		shView.aclSearch(new SearchListener());
 	}
-	
-	
-	class ShareListener implements ActionListener
-	{
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		String ename = (String) shView.eventNames.getSelectedItem();
-		String name1 = shView.getFirstName();
-		String name2 = shView.getSecondName();
-		String name3 = shView.getThirdName();
-		String name4 = shView.getFourthName();
-		String name5 = shView.getFithName();
-		String name6 = shView.getSixthName();
-		String usn = View.getLogin();
-		String userid = null;
-		String eventID = null;
-		try {
-			userid = database.queryDB.getId(usn);
-		} catch (ClassNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		try {
-			eventID = ShareModel.checkEventId(ename, userid);
-		} catch (ClassNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-		ArrayList<String> list = new ArrayList<String>();
-		if(name1 != null && !name1.isEmpty())
-		{
-			list.add(name1);
-		}
-		if(name2 !=  null && !name2.isEmpty())
-		{
-			list.add(name2);
-		}
-		if(name3 !=  null && !name3.isEmpty())
-		{
-			list.add(name3);
-		}
-		if(name4 !=  null && !name4.isEmpty())
-		{
-			list.add(name4);
-		}
-		if(name5 !=  null && !name5.isEmpty())
-		{
-			list.add(name5);
-		}
-		if(name6 != null && !name6.isEmpty())
-		{
-			list.add(name6);
-		}
-		
-		try{
-		for(String name: list)
-		{		
-		ShareModel.inviteUser(eventID, userid, name);
-		}
-		}catch (ClassNotFoundException e1)
-		{
-			e1.printStackTrace();
-		} catch (SQLException e1)
-		{
-			e1.printStackTrace();
-		}
-		shView.toggleOff();
-		}
-	}
-	
-	class RemoveListener implements ActionListener
-	{
+
+	class ShareListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String eName = (String)shView.eventNames.getSelectedItem();
+			String ename = (String) shView.eventNames.getSelectedItem();
+			String name1 = shView.getFirstName();
+			String name2 = shView.getSecondName();
+			String name3 = shView.getThirdName();
+			String name4 = shView.getFourthName();
+			String name5 = shView.getFithName();
+			String name6 = shView.getSixthName();
+			String usn = View.getLogin();
+			String userid = null;
+			String eventID = null;
+			try {
+				userid = database.queryDB.getId(usn);
+			} catch (ClassNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			try {
+				eventID = ShareModel.checkEventId(ename, userid);
+			} catch (ClassNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+
+			ArrayList<String> list = new ArrayList<String>();
+			if (name1 != null && !name1.isEmpty()) {
+				list.add(name1);
+			}
+			if (name2 != null && !name2.isEmpty()) {
+				list.add(name2);
+			}
+			if (name3 != null && !name3.isEmpty()) {
+				list.add(name3);
+			}
+			if (name4 != null && !name4.isEmpty()) {
+				list.add(name4);
+			}
+			if (name5 != null && !name5.isEmpty()) {
+				list.add(name5);
+			}
+			if (name6 != null && !name6.isEmpty()) {
+				list.add(name6);
+			}
+
+			try {
+				for (String name : list) {
+					ShareModel.inviteUser(eventID, userid, name);
+				}
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			shView.toggleOff();
+		}
+	}
+
+	class RemoveListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String eName = (String) shView.eventNames.getSelectedItem();
 			String userName = shView.removeUser.getText();
 			String userid = null;
 			String usn = View.getLogin();
 			String eventID = null;
-			
-			try
-			{
+
+			try {
 				userid = database.queryDB.getId(usn);
 				eventID = ShareModel.checkEventId(eName, userid);
-				String SQL_statement = "SELECT E_ID FROM EVENT WHERE USER_ID='" +userid+"' AND TITLE='"+ eName +"'";
-				
-				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-				
-				//create a new statement
-				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery(SQL_statement);
-				while(resultSet.next())
-				{
-					eventID = resultSet.getString("E_ID");
-				}
-				
-				if (statement != null) statement.close();
-				if (connection != null) connection.close();
-			}catch(Exception e1)
-			{
-				JOptionPane.showMessageDialog(null, "ERROR");
-			}finally
-			{
-			
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
+			} finally {
+
 			}
-					try{
-					Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-					String SQL_statement = ("DELETE FROM INVITE WHERE EVENT_ID ='"+ eventID +"' AND USERNAME_INVITED='"+ userName +"' ");
-					System.out.println(SQL_statement);
-					Statement statement = connection.createStatement();
-					statement.executeUpdate(SQL_statement);
-					
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} 
+			try {
+				ShareModel.removeUser(eventID, userName);
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
-		class SearchListener implements ActionListener
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			String eName = (String)shView.eventNames.getSelectedItem();
+	class SearchListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			String eName = (String) shView.eventNames.getSelectedItem();
 			ShareView.sm_enterName.setText(null);
 			ShareView.sm_enterName2.setText(null);
 			ShareView.sm_enterName3.setText(null);
@@ -170,126 +133,108 @@ public class ShareController implements ActionListener {
 			String usn = View.getLogin();
 			String userid = null;
 			String eventID = null;
-			
-			try{
+
+			try {
 				userid = database.queryDB.getId(usn);
-				String SQL_statement = "SELECT E_ID, USER_ID, TITLE FROM EVENT WHERE USER_ID='" +userid+"' AND TITLE='"+ eName +"'";
-				
+				String SQL_statement = "SELECT E_ID, USER_ID, TITLE FROM EVENT WHERE USER_ID='" + userid
+						+ "' AND TITLE='" + eName + "'";
+
 				Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
 
-				
-				//create a new statement
+				// create a new statement
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(SQL_statement);
-				while(resultSet.next())
-				{
+				while (resultSet.next()) {
 					eventID = resultSet.getString("E_ID");
 				}
-				
-				if (statement != null) statement.close();
-				if (connection != null) connection.close();
-			}catch(Exception e1)
-			{
+
+				if (statement != null)
+					statement.close();
+				if (connection != null)
+					connection.close();
+			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, "ERROR");
-			}finally
-			{
-			
-				
+			} finally {
+
 			}
 			try {
-				ShareView.sm_enterName.setText(shView.getFirstInvitation(userid, eventID, eName));
-				String data=ShareView.sm_enterName.getText().trim();
-				if(!data.equals(""))
-				{
+				ShareView.sm_enterName.setText(shModel.getFirstInvitation(userid, eventID, eName));
+				String data = ShareView.sm_enterName.getText().trim();
+				if (!data.equals("")) {
 					ShareView.sm_enterName.setEditable(false);
-				}else
-				{
+				} else {
 					ShareView.sm_enterName.setEditable(true);
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				ShareView.sm_enterName2.setText(shView.getSecondInvitation(userid, eventID, eName));
-				String data=ShareView.sm_enterName2.getText().trim();
-				if(!data.equals(""))
-				{
+				ShareView.sm_enterName2.setText(shModel.getSecondInvitation(userid, eventID, eName));
+				String data = ShareView.sm_enterName2.getText().trim();
+				if (!data.equals("")) {
 					ShareView.sm_enterName2.setEditable(false);
-				}else
-				{
+				} else {
 					ShareView.sm_enterName2.setEditable(true);
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				ShareView.sm_enterName3.setText(shView.getThirdInvitation(userid, eventID, eName));
-				String data=ShareView.sm_enterName3.getText().trim();
-				if(!data.equals(""))
-				{
+				ShareView.sm_enterName3.setText(shModel.getThirdInvitation(userid, eventID, eName));
+				String data = ShareView.sm_enterName3.getText().trim();
+				if (!data.equals("")) {
 					ShareView.sm_enterName3.setEditable(false);
-				
-				}else
-				{
+
+				} else {
 					ShareView.sm_enterName3.setEditable(true);
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				ShareView.sm_enterName4.setText(shView.getFourthInvitation(userid, eventID, eName));
-				String data=ShareView.sm_enterName4.getText().trim();
-				if(!data.equals(""))
-				{
+				ShareView.sm_enterName4.setText(shModel.getFourthInvitation(userid, eventID, eName));
+				String data = ShareView.sm_enterName4.getText().trim();
+				if (!data.equals("")) {
 					ShareView.sm_enterName4.setEditable(false);
-				
-				}else
-				{
+
+				} else {
 					ShareView.sm_enterName4.setEditable(true);
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				ShareView.sm_enterName5.setText(shView.getFithInvitation(userid, eventID, eName));
-				String data=ShareView.sm_enterName5.getText().trim();
-				if(!data.equals(""))
-				{
+				ShareView.sm_enterName5.setText(shModel.getFithInvitation(userid, eventID, eName));
+				String data = ShareView.sm_enterName5.getText().trim();
+				if (!data.equals("")) {
 					ShareView.sm_enterName5.setEditable(false);
-					
-				}else
-				{
+
+				} else {
 					ShareView.sm_enterName5.setEditable(true);
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				ShareView.sm_enterName6.setText(shView.getSixthInvitation(userid, eventID, eName));
-				String data=ShareView.sm_enterName6.getText().trim();
-				if(!data.equals(""))
-				{
+				ShareView.sm_enterName6.setText(shModel.getSixthInvitation(userid, eventID, eName));
+				String data = ShareView.sm_enterName6.getText().trim();
+				if (!data.equals("")) {
 					ShareView.sm_enterName6.setEditable(false);
-				}else
-				{
+				} else {
 					ShareView.sm_enterName6.setEditable(true);
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
-		}
-	
-	
-	
-	public void addModel(ShareModel m)
-	{
+	}
+
+	public void addModel(ShareModel m) {
 		System.out.println("Adding Share Model");
 		this.shModel = m;
 	}
-	
-	public void addView(ShareView v)
-	{
+
+	public void addView(ShareView v) {
 		System.out.println("Adding Share View");
 		this.shView = v;
 	}
@@ -297,6 +242,6 @@ public class ShareController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
