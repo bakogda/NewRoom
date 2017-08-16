@@ -6,13 +6,12 @@ public class hash {
 			java.security.MessageDigest md = java.security.MessageDigest.getInstance(hashType);
 			byte[] byteArray = md.digest(plainText.getBytes());
 			StringBuffer sb = new StringBuffer();
-			for (int x = 0; x<byteArray.length; ++x) {
-				sb.append(Integer.toHexString((byteArray[x] & 0xFF) | 0x100).substring(1,3));
+			for (int x = 0; x < byteArray.length; ++x) {
+				sb.append(Integer.toHexString((byteArray[x] & 0xFF) | 0x100).substring(1, 3));
 			}
 			return sb.toString();
 
-		} 
-		catch (java.security.NoSuchAlgorithmException e) {
+		} catch (java.security.NoSuchAlgorithmException e) {
 		}
 		return null;
 	}
