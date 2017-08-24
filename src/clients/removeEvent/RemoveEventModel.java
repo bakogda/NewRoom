@@ -17,14 +17,14 @@ public class RemoveEventModel {
 	}
 
 	public static void getRecords() throws SQLException {
+		RemoveEventView.detailsArea.setText(null);
+
+		String SQL_statement = "SELECT * FROM " + database.JDBConnect.tbl_event;
 		Connection connection = DriverManager.getConnection(dBV.JDBC_URL);
-
 		Statement statement = connection.createStatement();
-
-		ResultSet resultSet = statement.executeQuery("SELECT * FROM " + database.JDBConnect.tbl_event + "");
-		System.out.println(resultSet);
+		ResultSet resultSet = statement.executeQuery(SQL_statement);
 		ResultSetMetaData rsmd = resultSet.getMetaData();
-		
+
 		int cCount = rsmd.getColumnCount();
 
 		for (int i = 1; i <= cCount; i++){

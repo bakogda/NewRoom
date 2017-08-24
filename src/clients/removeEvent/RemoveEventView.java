@@ -24,7 +24,7 @@ import javax.swing.JComboBox;
 public class RemoveEventView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Button d = new Button("Get Events");
+	private Button get = new Button("Get Events");
 	private Button remove = new Button("Remove");
 	private Button cancel = new Button("Cancel");
 	static JTextArea detailsArea = new JTextArea(15, 35);
@@ -38,12 +38,26 @@ public class RemoveEventView extends JFrame {
 
 	public RemoveEventView() {
 		JPanel removeEvent = new JPanel();
-		detailsArea.setEditable(false);
 		this.setSize(800, 600);
 		removeEvent.add(remove);
-		removeEvent.add(cancel);
 		removeEvent.add(detailsArea);
-		removeEvent.add(d);
+		removeEvent.add(cancel);
+		
+		detailsArea.setEditable(false);
+		try {
+			detailsArea.setText(null);
+			RemoveEventModel.getRecords();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			toggleOff();
+			}
+		});
+		removeEvent.add(get);
 		removeEvent.add(lblChooseEventTo);
 		removeEvent.add(listEvents);
 		getContentPane().add(removeEvent);
@@ -60,13 +74,6 @@ public class RemoveEventView extends JFrame {
 		{
 			
 		}
-				
-		cancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-					toggleOff();
-			}
-		});
 			
 	}
 
@@ -82,11 +89,5 @@ public class RemoveEventView extends JFrame {
 		System.out.println("Remove button action listener: ");
 		remove.addActionListener(c);
 	}
-	
-	public void aclGet(ActionListener d) {
-		System.out.println("Get Events button action listener: ");
-		remove.addActionListener(d);
-	}
-	
 	
 }
